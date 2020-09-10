@@ -19,8 +19,18 @@ SOURCES += main.cpp\
 
 HEADERS  += SbcMakerMainWindow.h \
     OptionSettingWindow.h \
-    PasswdSettingDialog.h
+    PasswdSettingDialog.h \
+    SbcMakerCommon.h
 
 FORMS    += SbcMakerMainWindow.ui \
     OptionSettingWindow.ui \
     PasswdSettingDialog.ui
+
+unix: CONFIG += link_pkgconfig
+unix: PKGCONFIG += /usr/lib/x86_64-linux-gnu/pkgconfig/opencv4.pc
+
+unix: PKGCONFIG += /usr/lib/x86_64-linux-gnu/pkgconfig/libcurl.pc
+
+unix: PKGCONFIG += /usr/lib/x86_64-linux-gnu/pkgconfig/libssl.pc
+
+unix: PKGCONFIG += /usr/lib/x86_64-linux-gnu/pkgconfig/libcrypto.pc
