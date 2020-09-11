@@ -19,8 +19,8 @@
 #define SBC_DATA_FILE_PATH "./.data/"
 
 enum sbcFileType{
-  jpg = 0,
-  png,
+  fType_jpg = 0,
+  fType_png,
   MAX_FILETYPE,
 };
 
