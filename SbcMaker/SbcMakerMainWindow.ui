@@ -6,20 +6,152 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>573</width>
+    <height>458</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="windowTitle">
    <string>名刺自動生成</string>
   </property>
-  <widget class="QWidget" name="centralWidget"/>
+  <property name="inputMethodHints">
+   <set>Qt::ImhNone</set>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <widget class="QPushButton" name="finishPushButton">
+    <property name="geometry">
+     <rect>
+      <x>440</x>
+      <y>360</y>
+      <width>99</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>終了</string>
+    </property>
+   </widget>
+   <widget class="QTabWidget" name="viewTabWidget">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>100</y>
+      <width>511</width>
+      <height>241</height>
+     </rect>
+    </property>
+    <property name="currentIndex">
+     <number>1</number>
+    </property>
+    <widget class="QWidget" name="forntTab">
+     <attribute name="title">
+      <string>表</string>
+     </attribute>
+    </widget>
+    <widget class="QWidget" name="backTab">
+     <attribute name="title">
+      <string>裏</string>
+     </attribute>
+    </widget>
+   </widget>
+   <widget class="QPushButton" name="settingPushButton">
+    <property name="geometry">
+     <rect>
+      <x>440</x>
+      <y>4</y>
+      <width>101</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>設定</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="previewPushButton">
+    <property name="geometry">
+     <rect>
+      <x>440</x>
+      <y>37</y>
+      <width>101</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>プレビュー</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="imgGenPushButton">
+    <property name="geometry">
+     <rect>
+      <x>440</x>
+      <y>70</y>
+      <width>101</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>作成</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="layoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>0</y>
+      <width>191</width>
+      <height>29</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="0" column="0">
+      <widget class="QLabel" name="employeeLabel">
+       <property name="layoutDirection">
+        <enum>Qt::RightToLeft</enum>
+       </property>
+       <property name="text">
+        <string>社員番号：</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="employeeNumLineEdit">
+       <property name="maxLength">
+        <number>6</number>
+       </property>
+       <property name="cursorPosition">
+        <number>0</number>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+       <property name="dragEnabled">
+        <bool>false</bool>
+       </property>
+       <property name="readOnly">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <zorder>layoutWidget</zorder>
+   <zorder>finishPushButton</zorder>
+   <zorder>viewTabWidget</zorder>
+   <zorder>settingPushButton</zorder>
+   <zorder>imgGenPushButton</zorder>
+   <zorder>previewPushButton</zorder>
+  </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>400</width>
+     <width>573</width>
      <height>25</height>
     </rect>
    </property>
