@@ -40,6 +40,7 @@ QString strExtension[] = {
 
 typedef struct {
   QString strName;
+  QString strHoffice;
   QString strDept;
   QString strUnit;
   QString strTeam;
