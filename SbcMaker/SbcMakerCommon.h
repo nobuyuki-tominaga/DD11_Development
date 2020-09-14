@@ -25,6 +25,12 @@
 // 必要なデータ画像置き場
 #define SBC_DATA_FILE_PATH "./.data/"
 
+// Error
+enum sbcErrorType {
+  SUCCESS = 0,
+  FAILURE = 1,
+};
+
 // FileType
 enum sbcFileType{
   fType_jpg = 0,
