@@ -5,9 +5,9 @@
 
 // プロジェクト内共通定義
 #if defined (Q_OS_LINUX)
-#define SBC_DEFAULT_FILE_PATH()	{qgetenv("HOME").constData()}
-#elif dedined (Q_OS_WIN32)
-#define SBC_DEFAULT_FILE_PATH()	{qgetenv("HOMEPATH").constData()}
+  #define SBC_DEFAULT_FILE_PATH() {qgetenv("HOME").constData()}
+#elif defined (Q_OS_WIN32)
+  #define SBC_DEFAULT_FILE_PATH() {qgetenv("HOMEPATH").constData()}
 #endif
 
 #define SBC_F_FILE      "Front."        // 社員番号_日付Front.拡張子
