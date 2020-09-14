@@ -14,17 +14,17 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         SbcMakerMainWindow.cpp \
-    OptionSettingWindow.cpp \
-    PasswdSettingDialog.cpp
+    PasswdSettingDialog.cpp \
+    OptionSettingDialog.cpp
 
 HEADERS  += SbcMakerMainWindow.h \
-    OptionSettingWindow.h \
     PasswdSettingDialog.h \
-    SbcMakerCommon.h
+    SbcMakerCommon.h \
+    OptionSettingDialog.h
 
 FORMS    += SbcMakerMainWindow.ui \
-    OptionSettingWindow.ui \
-    PasswdSettingDialog.ui
+    PasswdSettingDialog.ui \
+    OptionSettingDialog.ui
 
 unix: CONFIG += link_pkgconfig
 unix: PKGCONFIG += /usr/lib/x86_64-linux-gnu/pkgconfig/opencv4.pc

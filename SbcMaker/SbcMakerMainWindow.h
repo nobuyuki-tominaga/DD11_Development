@@ -15,6 +15,15 @@ public:
     explicit CSbcMakerMain(QWidget *parent = 0);
     ~CSbcMakerMain();
 
+private slots:
+    void on_settingPushButton_clicked();
+
+    void on_previewPushButton_clicked();
+
+    void on_imgGenPushButton_clicked();
+
+    void on_finishPushButton_clicked();
+
 private:
     Ui::CSbcMakerMain *ui;
 };
