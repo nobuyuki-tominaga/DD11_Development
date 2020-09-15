@@ -37,12 +37,14 @@ enum sbcFileType{
   fType_png,
   MAX_FILETYPE,
 };
+#if 0
 // FileType Charactor
 QString strExtension[] = {
   "jpg",
   "png",
   "jpg"
 };
+#endif
 
 typedef struct {
   QString strName;    // 氏名
