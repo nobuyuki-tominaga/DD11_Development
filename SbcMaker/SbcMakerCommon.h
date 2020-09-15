@@ -5,9 +5,9 @@
 
 // プロジェクト内共通定義
 #if defined (Q_OS_LINUX)
-  #define SBC_DEFAULT_FILE_PATH() {qgetenv("HOME").constData()}
+  #define SBC_DEFAULT_FILE_PATH() (qgetenv("HOME").constData())
 #elif defined (Q_OS_WIN32)
-  #define SBC_DEFAULT_FILE_PATH() {qgetenv("HOMEPATH").constData()}
+  #define SBC_DEFAULT_FILE_PATH() (qgetenv("HOMEPATH").constData())
 #endif
 
 #define SBC_F_FILE      "Front."        // 社員番号_日付Front.拡張子
@@ -45,16 +45,17 @@ QString strExtension[] = {
 };
 
 typedef struct {
-  QString strName;
-  QString strHoffice;
-  QString strDept;
-  QString strUnit;
-  QString strTeam;
-  QString strPosition;
-  QString strMail;
+  QString strName;    // 氏名
+  QString strHoffice; // 部門（システム本部、管理本部...）
+  QString strDept;    // 部
+  QString strUnit;    // 所属ユニット
+  QString strTeam;    // 所属チーム
+  QString strPosition;// 職位
+  QString strMail;    // メールアドレス
+  QString strMobile;  // 携帯番号
 
-  QString strEngName;
-  QString strEngPosition;
+  QString strEngName;     // 氏名（英）
+  QString strEngPosition; // 職位（英）
 } EMPLOYEE_INFO;
 
 #endif // SBCMAKERCOMMON_H
