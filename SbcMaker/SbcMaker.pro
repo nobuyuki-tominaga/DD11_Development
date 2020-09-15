@@ -27,7 +27,7 @@ FORMS    += SbcMakerMainWindow.ui \
     OptionSettingDialog.ui
 
 unix: CONFIG += link_pkgconfig
-unix: PKGCONFIG += /usr/lib/x86_64-linux-gnu/pkgconfig/opencv4.pc
+#unix: PKGCONFIG += /usr/lib/x86_64-linux-gnu/pkgconfig/opencv4.pc
 #unix: PKGCONFIG += /usr/lib/x86_64-linux-gnu/pkgconfig/opencv.pc
 unix: PKGCONFIG += /usr/lib/x86_64-linux-gnu/pkgconfig/libcurl.pc
 
