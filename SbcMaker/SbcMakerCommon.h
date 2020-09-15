@@ -1,13 +1,13 @@
-#ifndef SBCMAKERCOMMON_H
+﻿#ifndef SBCMAKERCOMMON_H
 #define SBCMAKERCOMMON_H
 
 #include <QString>
 
 // プロジェクト内共通定義
-#ifdef Q_OS_LINUX
-#define SBC_DEFAULT_FILE_PATH	"~/"
-#elif Q_OS_WIN32
-#define SBC_DEFAULT_FILE_PATH	"c:\\"
+#if defined (Q_OS_LINUX)
+  #define SBC_DEFAULT_FILE_PATH() {qgetenv("HOME").constData()}
+#elif defined (Q_OS_WIN32)
+  #define SBC_DEFAULT_FILE_PATH() {qgetenv("HOMEPATH").constData()}
 #endif
 
 #define SBC_F_FILE      "Front."        // 社員番号_日付Front.拡張子
@@ -24,6 +24,12 @@
 
 // 必要なデータ画像置き場
 #define SBC_DATA_FILE_PATH "./.data/"
+
+// Error
+enum sbcErrorType {
+  SUCCESS = 0,
+  FAILURE = 1,
+};
 
 // FileType
 enum sbcFileType{
