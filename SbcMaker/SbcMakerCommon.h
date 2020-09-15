@@ -58,6 +58,7 @@ typedef struct {
 
   QString strEngName;     // 氏名（英）
   QString strEngPosition; // 職位（英）
+  QString strEngMobile;   // 携帯番号（英）
 } EMPLOYEE_INFO;
 
 #endif // SBCMAKERCOMMON_H
