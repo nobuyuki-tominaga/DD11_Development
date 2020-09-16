@@ -32,9 +32,9 @@
   <widget class="QCheckBox" name="adminCheckBox">
    <property name="geometry">
     <rect>
-     <x>380</x>
+     <x>370</x>
      <y>30</y>
-     <width>101</width>
+     <width>111</width>
      <height>21</height>
     </rect>
    </property>
@@ -45,9 +45,9 @@
   <widget class="QCheckBox" name="updateCheckBox">
    <property name="geometry">
     <rect>
-     <x>380</x>
+     <x>370</x>
      <y>180</y>
-     <width>101</width>
+     <width>111</width>
      <height>21</height>
     </rect>
    </property>
@@ -116,12 +116,12 @@
     </item>
    </layout>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>40</x>
      <y>100</y>
-     <width>121</width>
+     <width>136</width>
      <height>31</height>
     </rect>
    </property>
@@ -151,11 +151,10 @@
   </widget>
   <zorder>layoutWidget</zorder>
   <zorder>layoutWidget</zorder>
+  <zorder>layoutWidget</zorder>
   <zorder>buttonBox</zorder>
   <zorder>adminCheckBox</zorder>
   <zorder>updateCheckBox</zorder>
-  <zorder>saveFmtComboBox</zorder>
-  <zorder>saveFmtLabel</zorder>
  </widget>
  <resources/>
  <connections/>

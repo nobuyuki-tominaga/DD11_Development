@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>573</width>
-    <height>458</height>
+    <width>572</width>
+    <height>515</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -27,7 +27,7 @@
     <property name="geometry">
      <rect>
       <x>440</x>
-      <y>360</y>
+      <y>410</y>
       <width>99</width>
       <height>27</height>
      </rect>
@@ -42,21 +42,31 @@
       <x>30</x>
       <y>100</y>
       <width>511</width>
-      <height>241</height>
+      <height>291</height>
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="forntTab">
      <attribute name="title">
       <string>表</string>
      </attribute>
+     <layout class="QGridLayout" name="gridLayout_3">
+      <item row="0" column="0">
+       <widget class="QGraphicsView" name="FrontGraphicsView"/>
+      </item>
+     </layout>
     </widget>
     <widget class="QWidget" name="backTab">
      <attribute name="title">
       <string>裏</string>
      </attribute>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="0" column="0">
+       <widget class="QGraphicsView" name="BackGraphicsView"/>
+      </item>
+     </layout>
     </widget>
    </widget>
    <widget class="QPushButton" name="settingPushButton">
@@ -151,7 +161,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>573</width>
+     <width>572</width>
      <height>25</height>
     </rect>
    </property>
