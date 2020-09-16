@@ -10,7 +10,7 @@ CSettings::CSettings()
 // INIファイル読み出し
 void CSettings::loadIniFile()
 {
-    qDebug("load ini file");
+    qDebug("Load ini file");
 
     QSettings qset("sbc_settings.ini", QSettings::IniFormat);
     qset.setIniCodec(QTextCodec::codecForName("UTF-8"));
@@ -21,13 +21,12 @@ void CSettings::loadIniFile()
     m_p12CertP12File = qset.value("p12CertP12File", ""                     ).toString();
     m_saveFmt        = qset.value("saveFmt"       , fType_jpg              ).toUInt();
     m_existenceFlg   = qset.value("existenceFlg"  , false                  ).toBool();
-   qDebug("Status:%d", qset.status());
 }
 
 // INIファイル書き込み
 void CSettings::saveIniFile()
 {
-    qDebug("save ini file");
+    qDebug("Save ini file");
 
     QSettings qset("sbc_settings.ini", QSettings::IniFormat);
     qset.setIniCodec(QTextCodec::codecForName("UTF-8"));
@@ -54,13 +53,13 @@ QString CSettings::getEmployeeNum()
 }
 
 // 管理者権限設定
-void CSettings::setAdminFilg(bool flg)
+void CSettings::setAdminFlg(bool flg)
 {
     m_adminFlg = flg;
 }
 
 // 管理者権限取得
-bool CSettings::setAdminFilg()
+bool CSettings::getAdminFlg()
 {
     return m_adminFlg;
 }
