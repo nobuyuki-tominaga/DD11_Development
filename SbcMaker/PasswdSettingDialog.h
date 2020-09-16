@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QMessageBox>
+#include "Settings.h"
 
 namespace Ui {
 class CPasswd;
@@ -13,7 +14,7 @@ class CPasswd : public QDialog
     Q_OBJECT
 
 public:
-    explicit CPasswd(QWidget *parent = 0);
+    explicit CPasswd(QWidget *parent = 0, CSettings *settings = NULL);
     ~CPasswd();
 
 private slots:
@@ -21,6 +22,8 @@ private slots:
 
 private:
     Ui::CPasswd *ui;
+
+    CSettings *m_pSettings;
 };
 
 #endif // PASSWDSETTINGDIALOG_H
