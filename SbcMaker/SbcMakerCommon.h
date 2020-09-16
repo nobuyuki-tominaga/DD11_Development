@@ -37,6 +37,13 @@ enum sbcFileType{
   fType_png,
   MAX_FILETYPE,
 };
+
+// 表裏情報
+enum sbcSides {
+  sides_front = 0,
+  sides_back = 1,
+};
+
 #if 0
 // FileType Charactor
 QString strExtension[] = {
