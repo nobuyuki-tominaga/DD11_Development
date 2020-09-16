@@ -15,12 +15,14 @@ TEMPLATE = app
 SOURCES += main.cpp\
         SbcMakerMainWindow.cpp \
     PasswdSettingDialog.cpp \
-    OptionSettingDialog.cpp
+    OptionSettingDialog.cpp \
+    Settings.cpp
 
 HEADERS  += SbcMakerMainWindow.h \
     PasswdSettingDialog.h \
     SbcMakerCommon.h \
-    OptionSettingDialog.h
+    OptionSettingDialog.h \
+    Settings.h
 
 FORMS    += SbcMakerMainWindow.ui \
     PasswdSettingDialog.ui \

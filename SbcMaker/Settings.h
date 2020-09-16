@@ -28,9 +28,9 @@ public:
     // 社員番号取得
     QString getEmployeeNum();
     // 管理者権限設定
-    void setAdminFilg(bool flg);
+    void setAdminFlg(bool flg);
     // 管理者権限取得
-    bool setAdminFilg();
+    bool getAdminFlg();
     // 保存先設定
     void setSaveDir(QString DirPath);
     // 保存先取得
