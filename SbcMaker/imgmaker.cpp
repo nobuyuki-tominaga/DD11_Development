@@ -66,8 +66,6 @@ int ImgMaker::createGraphic(QGraphicsScene *scene, QString strEmpNum, int Side, 
     else {
         strViewPath += SBC_VIEW_B_FILE;
     }
-    // debug
-    strViewPath += strFileType[1];
 
     QImage image(strViewPath);
     QGraphicsPixmapItem *image_item = new QGraphicsPixmapItem(QPixmap::fromImage(image));
@@ -133,8 +131,6 @@ void ImgMaker::createBcardFront(EMPLOYEE_INFO *info)  //名刺表面作成
     painter.drawText(475,593, "携帯 " + info->strMobile); //座標は左下
 
     strViewPath += SBC_VIEW_F_FILE;
-    //debug
-    strViewPath += strFileType[1];
     image->save(strViewPath);
 }
 
@@ -160,8 +156,6 @@ void ImgMaker::createBcardBack(EMPLOYEE_INFO *info) //名刺裏面作成
     painter.drawText(500,585, "Mobile " + info->strEngMobile); //座標は左下
 
     strViewPath += SBC_VIEW_B_FILE;
-    //debug
-    strViewPath += strFileType[1];
     image->save(strViewPath);
 }
 void ImgMaker::getPhotoComposition() //名刺表面に顔写真を貼り付け
@@ -169,8 +163,7 @@ void ImgMaker::getPhotoComposition() //名刺表面に顔写真を貼り付け
     QImage *image = new QImage();
     QString strViewPath = SBC_TMP_FILE_PATH;
     strViewPath += SBC_VIEW_F_FILE;
-    //debug
-    strViewPath += strFileType[1];
+
     image->load(strViewPath);
     QPainter painter(image);
 
