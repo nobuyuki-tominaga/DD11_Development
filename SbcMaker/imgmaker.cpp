@@ -1,29 +1,29 @@
-#include <QMessageBox>
-#include <QTranslator>
-#include <QLibraryInfo>
-#include "imgmaker.h"
-using namespace std;
-#include "SbcMakerCommon.h"
-#include "SbcMakerMainWindow.h"
-#include "ui_SbcMakerMainWindow.h"
+﻿//#include <QMessageBox>
+//#include <QTranslator>
+//#include <QLibraryInfo>
+
 #include <QPainter>
 #include <QImage>
-#include <QtGui>
+//#include <QtGui>
 #include <QString>
 #include <QGraphicsScene>
-#include <QGraphicsView>
-#include <QMainWindow>
-#include <QDebug>
-#include <QApplication>
+//#include <QGraphicsView>
+//#include <QDebug>
 
+#include "SbcMakerCommon.h"
+#include "imgmaker.h"
 
+static void _getEmployeeInfo(EMPLOYEE_INFO *info); //社員情報取得　動作確認用
 
 ImgMaker::ImgMaker()
 {
 }
 
+ImgMaker::~ImgMaker()
+{
+}
 
-void getEmployeeInfo(EMPLOYEE_INFO *info) //社員情報取得　動作確認用
+static void _getEmployeeInfo(EMPLOYEE_INFO *info) //社員情報取得　動作確認用
 {
     info->strName = "ソーバル 太郎";
     info->strHoffice = "システム本部";
@@ -39,13 +39,53 @@ void getEmployeeInfo(EMPLOYEE_INFO *info) //社員情報取得　動作確認用
     info->strEngMobile = "+81-80-****-****";
 }
 
+int ImgMaker::graphicCreate(QGraphicsScene *Scene, QString strEmpNum, int Side, bool fSave, QString strFilePath)
+{
+    // debug
+    EMPLOYEE_INFO info;
+    _getEmployeeInfo(&info);
+#if 0
+    _createBcard(&info, Side);
+#else
+    if (Side == sides_front) {
+        createBcardFront(&info);
+    }
+    else {
+        createBcardBack(&info);
+    }
+#endif
+    getPhotoComposition();
 
+    if (fSave == true) {
+        // 本画像保存処理
+    }
+
+    // image
+    QImage *image = new QImage();
+    image->load( "./tmp/");
+
+    // graphicsViewにSceneを設定。
+    // SCene設定はMainWindowで行ってもらう
+    //ui->FrontGraphicsView->setScene(&Scene1);
+    //ui->BackGraphicsView->setScene(&Scene2);
+
+    //Scene_をクリア
+    Scene->clear();
+
+    //Scene_に登録するpixmapを作成
+    QPixmap pmap = QPixmap::fromImage(*image);
+    //Scene_に画像を登録
+    Scene->addPixmap(pmap);
+
+    return SUCCESS;
+}
+#if 0
 QGraphicsScene ImgMaker::previewImgMaker(QGraphicsScene Scene1, QGraphicsScene Scene2) //プレビュー表示
 {
     EMPLOYEE_INFO info;
-    getEmployeeInfo(&info);
+    _getEmployeeInfo(&info);
     createBcardFront(&info);
-    createBcardBack(&info);
+    //createBcardBack(&info);
     getPhotoComposition();
     QImage *image1 = new QImage();
     QImage *image2 = new QImage();
@@ -64,16 +104,16 @@ QGraphicsScene ImgMaker::previewImgMaker(QGraphicsScene Scene1, QGraphicsScene S
      Scene1.addPixmap(pmap1);
      Scene2.addPixmap(pmap2);
 
-
      //画像をリサイズ
      //ui->FrontGraphicsView->fitInView(Scene1.itemsBoundingRect(),Qt::KeepAspectRatio);
      //ui->BackGraphicsView->fitInView(Scene2.itemsBoundingRect(),Qt::KeepAspectRatio);
 }
+#endif
 
 void ImgMaker::createBcardFront(EMPLOYEE_INFO *info)  //名刺表面作成
 {
     QImage *image = new QImage();
-    image->load( "./.data/");
+    image->load( "./.data/omote.jpg");
     QPainter painter(image);
 
     painter.setPen(QPen(Qt::black));
@@ -90,13 +130,13 @@ void ImgMaker::createBcardFront(EMPLOYEE_INFO *info)  //名刺表面作成
     painter.drawText(330,390,700,35, Qt::AlignRight, info->strMail);//右端に合わせる
     painter.setFont(QFont("MS UI Gothic", 5, QFont::Bold));
     painter.drawText(475,593, "携帯 " + info->strMobile); //座標は左下
-    image->save("./tmp/");
+    image->save("./tmp/output.jpg");
 }
 
 void ImgMaker::createBcardBack(EMPLOYEE_INFO *info) //名刺裏面作成
 {
     QImage *image = new QImage();
-    image->load( "./.data/");
+    image->load( "./.data/omote.jpg");
     QPainter painter(image);
 
     painter.setPen(QPen(Qt::black));
@@ -108,9 +148,8 @@ void ImgMaker::createBcardBack(EMPLOYEE_INFO *info) //名刺裏面作成
     painter.drawText(330,390,700,35, Qt::AlignRight,info->strMail);//右端に合わせる
     painter.setFont(QFont("MS UI Gothic", 6));
     painter.drawText(500,585, "Mobile " + info->strEngMobile); //座標は左下
-    image->save("./tmp/");
+    image->save("./tmp/output.jpg");
 }
-
 void ImgMaker::getPhotoComposition() //名刺表面に顔写真を貼り付け
 {
     QImage *image = new QImage();
