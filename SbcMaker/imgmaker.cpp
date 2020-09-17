@@ -61,8 +61,15 @@ int ImgMaker::graphicCreate(QGraphicsScene *Scene, QString strEmpNum, int Side, 
     }
 
     // image
+    QString strViewPath = SBC_TMP_FILE_PATH;
+    if (Side == sides_front) {
+        strViewPath += SBC_VIEW_F_FILE;
+    }
+    else {
+        strViewPath += SBC_VIEW_B_FILE;
+    }
     QImage *image = new QImage();
-    image->load( "./tmp/");
+    image->load(strViewPath);
 
     // graphicsViewにSceneを設定。
     // SCene設定はMainWindowで行ってもらう
@@ -112,8 +119,13 @@ QGraphicsScene ImgMaker::previewImgMaker(QGraphicsScene Scene1, QGraphicsScene S
 
 void ImgMaker::createBcardFront(EMPLOYEE_INFO *info)  //名刺表面作成
 {
+    QString strViewPath = SBC_TMP_FILE_PATH;
+    QString strDataPath = SBC_DATA_FILE_PATH;
+
     QImage *image = new QImage();
-    image->load( "./.data/omote.jpg");
+    // debug
+    strDataPath += "omote.jpg";
+    image->load(strDataPath);
     QPainter painter(image);
 
     painter.setPen(QPen(Qt::black));
@@ -130,13 +142,22 @@ void ImgMaker::createBcardFront(EMPLOYEE_INFO *info)  //名刺表面作成
     painter.drawText(330,390,700,35, Qt::AlignRight, info->strMail);//右端に合わせる
     painter.setFont(QFont("MS UI Gothic", 5, QFont::Bold));
     painter.drawText(475,593, "携帯 " + info->strMobile); //座標は左下
-    image->save("./tmp/output.jpg");
+
+    strViewPath += SBC_VIEW_F_FILE;
+    //debug
+    strViewPath += "jpg";
+    image->save(strViewPath);
 }
 
 void ImgMaker::createBcardBack(EMPLOYEE_INFO *info) //名刺裏面作成
 {
+    QString strViewPath = SBC_TMP_FILE_PATH;
+    QString strDataPath = SBC_DATA_FILE_PATH;
+
     QImage *image = new QImage();
-    image->load( "./.data/omote.jpg");
+    // debug
+    strDataPath += "omote.jpg";
+    image->load(strDataPath);
     QPainter painter(image);
 
     painter.setPen(QPen(Qt::black));
@@ -148,7 +169,11 @@ void ImgMaker::createBcardBack(EMPLOYEE_INFO *info) //名刺裏面作成
     painter.drawText(330,390,700,35, Qt::AlignRight,info->strMail);//右端に合わせる
     painter.setFont(QFont("MS UI Gothic", 6));
     painter.drawText(500,585, "Mobile " + info->strEngMobile); //座標は左下
-    image->save("./tmp/output.jpg");
+
+    strViewPath += SBC_VIEW_B_FILE;
+    //debug
+    strViewPath += "jpg";
+    image->save(strViewPath);
 }
 void ImgMaker::getPhotoComposition() //名刺表面に顔写真を貼り付け
 {
