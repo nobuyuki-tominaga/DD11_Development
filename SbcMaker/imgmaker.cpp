@@ -1,22 +1,15 @@
-﻿//#include <QMessageBox>
-//#include <QTranslator>
-//#include <QLibraryInfo>
-
-#include <QPainter>
+﻿#include <QPainter>
 #include <QImage>
-//#include <QtGui>
 #include <QString>
 #include <QGraphicsScene>
 #include <QGraphicsPixmapItem>
-//#include <QGraphicsView>
-//#include <QDebug>
 
 #include "SbcMakerCommon.h"
 #include "imgmaker.h"
 
 QString strFileType[MAX_FILETYPE] = {
   "jpg",
-  "pnt",
+  "png",
 };
 static void _getEmployeeInfo(EMPLOYEE_INFO *info); //社員情報取得　動作確認用
 
@@ -44,7 +37,7 @@ static void _getEmployeeInfo(EMPLOYEE_INFO *info) //社員情報取得　動作�
     info->strEngMobile = "+81-80-****-****";
 }
 
-int ImgMaker::graphicCreate(QGraphicsScene *scene, QString strEmpNum, int Side, bool fSave, QString strFilePath)
+int ImgMaker::createGraphic(QGraphicsScene *scene, QString strEmpNum, int Side, bool fSave, QString strFilePath)
 {
     // debug
     EMPLOYEE_INFO info;
@@ -74,7 +67,7 @@ int ImgMaker::graphicCreate(QGraphicsScene *scene, QString strEmpNum, int Side, 
         strViewPath += SBC_VIEW_B_FILE;
     }
     // debug
-    strViewPath += "png";
+    strViewPath += strFileType[1];
 
     QImage image(strViewPath);
     QGraphicsPixmapItem *image_item = new QGraphicsPixmapItem(QPixmap::fromImage(image));
@@ -141,7 +134,7 @@ void ImgMaker::createBcardFront(EMPLOYEE_INFO *info)  //名刺表面作成
 
     strViewPath += SBC_VIEW_F_FILE;
     //debug
-    strViewPath += "png";
+    strViewPath += strFileType[1];
     image->save(strViewPath);
 }
 
@@ -168,7 +161,7 @@ void ImgMaker::createBcardBack(EMPLOYEE_INFO *info) //名刺裏面作成
 
     strViewPath += SBC_VIEW_B_FILE;
     //debug
-    strViewPath += "jpg";
+    strViewPath += strFileType[1];
     image->save(strViewPath);
 }
 void ImgMaker::getPhotoComposition() //名刺表面に顔写真を貼り付け
@@ -177,7 +170,7 @@ void ImgMaker::getPhotoComposition() //名刺表面に顔写真を貼り付け
     QString strViewPath = SBC_TMP_FILE_PATH;
     strViewPath += SBC_VIEW_F_FILE;
     //debug
-    strViewPath += "png";
+    strViewPath += strFileType[1];
     image->load(strViewPath);
     QPainter painter(image);
 
