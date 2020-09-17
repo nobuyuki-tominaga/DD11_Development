@@ -24,7 +24,7 @@ HEADERS  += SbcMakerMainWindow.h \
     PasswdSettingDialog.h \
     SbcMakerCommon.h \
     OptionSettingDialog.h \
-    Settings.h
+    Settings.h \
     MakePemFile.h \
     GetEmployeeInfo.h
 
