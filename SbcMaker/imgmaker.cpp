@@ -7,12 +7,17 @@
 //#include <QtGui>
 #include <QString>
 #include <QGraphicsScene>
+#include <QGraphicsPixmapItem>
 //#include <QGraphicsView>
 //#include <QDebug>
 
 #include "SbcMakerCommon.h"
 #include "imgmaker.h"
 
+QString strFileType[MAX_FILETYPE] = {
+  "jpg",
+  "pnt",
+};
 static void _getEmployeeInfo(EMPLOYEE_INFO *info); //社員情報取得　動作確認用
 
 ImgMaker::ImgMaker()
@@ -39,7 +44,7 @@ static void _getEmployeeInfo(EMPLOYEE_INFO *info) //社員情報取得　動作�
     info->strEngMobile = "+81-80-****-****";
 }
 
-int ImgMaker::graphicCreate(QGraphicsScene *Scene, QString strEmpNum, int Side, bool fSave, QString strFilePath)
+int ImgMaker::graphicCreate(QGraphicsScene *scene, QString strEmpNum, int Side, bool fSave, QString strFilePath)
 {
     // debug
     EMPLOYEE_INFO info;
@@ -68,21 +73,12 @@ int ImgMaker::graphicCreate(QGraphicsScene *Scene, QString strEmpNum, int Side, 
     else {
         strViewPath += SBC_VIEW_B_FILE;
     }
-    QImage *image = new QImage();
-    image->load(strViewPath);
+    // debug
+    strViewPath += "png";
 
-    // graphicsViewにSceneを設定。
-    // SCene設定はMainWindowで行ってもらう
-    //ui->FrontGraphicsView->setScene(&Scene1);
-    //ui->BackGraphicsView->setScene(&Scene2);
-
-    //Scene_をクリア
-    Scene->clear();
-
-    //Scene_に登録するpixmapを作成
-    QPixmap pmap = QPixmap::fromImage(*image);
-    //Scene_に画像を登録
-    Scene->addPixmap(pmap);
+    QImage image(strViewPath);
+    QGraphicsPixmapItem *image_item = new QGraphicsPixmapItem(QPixmap::fromImage(image));
+    scene->addItem(image_item);
 
     return SUCCESS;
 }
@@ -124,7 +120,7 @@ void ImgMaker::createBcardFront(EMPLOYEE_INFO *info)  //名刺表面作成
 
     QImage *image = new QImage();
     // debug
-    strDataPath += "omote.jpg";
+    strDataPath += "front.jpg";
     image->load(strDataPath);
     QPainter painter(image);
 
@@ -145,7 +141,7 @@ void ImgMaker::createBcardFront(EMPLOYEE_INFO *info)  //名刺表面作成
 
     strViewPath += SBC_VIEW_F_FILE;
     //debug
-    strViewPath += "jpg";
+    strViewPath += "png";
     image->save(strViewPath);
 }
 
@@ -156,7 +152,7 @@ void ImgMaker::createBcardBack(EMPLOYEE_INFO *info) //名刺裏面作成
 
     QImage *image = new QImage();
     // debug
-    strDataPath += "omote.jpg";
+    strDataPath += "back.jpg";
     image->load(strDataPath);
     QPainter painter(image);
 
@@ -178,9 +174,15 @@ void ImgMaker::createBcardBack(EMPLOYEE_INFO *info) //名刺裏面作成
 void ImgMaker::getPhotoComposition() //名刺表面に顔写真を貼り付け
 {
     QImage *image = new QImage();
-    image->load( "./tmp/");
+    QString strViewPath = SBC_TMP_FILE_PATH;
+    strViewPath += SBC_VIEW_F_FILE;
+    //debug
+    strViewPath += "png";
+    image->load(strViewPath);
     QPainter painter(image);
 
-    painter.drawImage(55, 220, QImage("./.data/")); //gifファイル
-    image->save("./tmp/");
+    QString strDataPath = SBC_DATA_FILE_PATH;
+    strDataPath += "face.gif";
+    painter.drawImage(55, 220, QImage(strDataPath)); //gifファイル
+    image->save(strViewPath);
 }
