@@ -1,10 +1,14 @@
-#include <QDebug>
+﻿#include <QDebug>
 #include <QMessageBox>
 #include <QTranslator>
 #include <QLibraryInfo>
 #include "SbcMakerMainWindow.h"
 #include "ui_SbcMakerMainWindow.h"
 #include "OptionSettingDialog.h"
+
+#include <QGraphicsScene>
+
+#include "imgmaker.h"
 
 CSbcMakerMain::CSbcMakerMain(QWidget *parent) :
     QMainWindow(parent),
@@ -55,7 +59,16 @@ void CSbcMakerMain::on_settingPushButton_clicked()
 
 void CSbcMakerMain::on_previewPushButton_clicked()
 {
+#if 0 // debug
+    QString strEmpNum = "199013";
+    QString strFilePath = "/home/tommy/dev_work/DD11_Development/";
 
+    ImgMaker *cImg = new(ImgMaker);
+    cImg->createGraphic(&m_scene, strEmpNum, 0, false, strFilePath);
+
+    ui->FrontGraphicsView->setScene(&m_scene);
+    ui->FrontGraphicsView->fitInView(m_scene.itemsBoundingRect(),Qt::KeepAspectRatio);
+#endif
 }
 
 void CSbcMakerMain::on_imgGenPushButton_clicked()

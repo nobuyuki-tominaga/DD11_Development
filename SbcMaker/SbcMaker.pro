@@ -18,7 +18,8 @@ SOURCES += main.cpp\
     OptionSettingDialog.cpp \
     Settings.cpp \
     MakePemFile.cpp \
-    GetEmployeeInfo.cpp
+    GetEmployeeInfo.cpp \
+    imgmaker.cpp
 
 HEADERS  += SbcMakerMainWindow.h \
     PasswdSettingDialog.h \
@@ -26,7 +27,8 @@ HEADERS  += SbcMakerMainWindow.h \
     OptionSettingDialog.h \
     Settings.h \
     MakePemFile.h \
-    GetEmployeeInfo.h
+    GetEmployeeInfo.h \
+    imgmaker.h
 
 FORMS    += SbcMakerMainWindow.ui \
     PasswdSettingDialog.ui \

@@ -12,8 +12,8 @@
 
 #define SBC_F_FILE      "Front."        // 社員番号_日付Front.拡張子
 #define SBC_B_FILE      "Back."         // 社員番号_日付Back.拡張子
-#define SBC_VIEW_F_FILE "ImgViewFront." // ImgViewFront.拡張子
-#define SBC_VIEW_B_FILE "ImgViewBack."  // ImgViewBack.拡張子
+#define SBC_VIEW_F_FILE "ImgViewFront.jpg" // ImgViewFront.jpg
+#define SBC_VIEW_B_FILE "ImgViewBack.jpg"  // ImgViewBack.jpg
 #define SBC_PEM_FILE    "_key.pem"      // 社員番号_key.pem
 
 // pem置き場
