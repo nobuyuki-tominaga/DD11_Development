@@ -37,12 +37,21 @@ enum sbcFileType{
   fType_png,
   MAX_FILETYPE,
 };
+
+// 表裏情報
+enum sbcSides {
+  sides_front = 0,
+  sides_back = 1,
+};
+
+#if 0
 // FileType Charactor
 QString strExtension[] = {
   "jpg",
   "png",
   "jpg"
 };
+#endif
 
 typedef struct {
   QString strName;    // 氏名
@@ -56,6 +65,7 @@ typedef struct {
 
   QString strEngName;     // 氏名（英）
   QString strEngPosition; // 職位（英）
+  QString strEngMobile;   // 携帯番号（英）
 } EMPLOYEE_INFO;
 
 #endif // SBCMAKERCOMMON_H

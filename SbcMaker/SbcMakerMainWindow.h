@@ -2,6 +2,7 @@
 #define SBCMAKERMAINWINDOW_H
 
 #include <QMainWindow>
+#include "Settings.h"
 
 namespace Ui {
 class CSbcMakerMain;
@@ -24,8 +25,11 @@ private slots:
 
     void on_finishPushButton_clicked();
 
+    void on_viewTabWidget_tabBarClicked(int index);
+
 private:
     Ui::CSbcMakerMain *ui;
+    CSettings sbcSettings;
 };
 
 #endif // SBCMAKERMAINWINDOW_H

@@ -16,6 +16,7 @@ SOURCES += main.cpp\
         SbcMakerMainWindow.cpp \
     PasswdSettingDialog.cpp \
     OptionSettingDialog.cpp \
+    Settings.cpp \
     MakePemFile.cpp \
     GetEmployeeInfo.cpp
 
@@ -23,6 +24,7 @@ HEADERS  += SbcMakerMainWindow.h \
     PasswdSettingDialog.h \
     SbcMakerCommon.h \
     OptionSettingDialog.h \
+    Settings.h
     MakePemFile.h \
     GetEmployeeInfo.h
 
@@ -36,13 +38,5 @@ unix: CONFIG += link_pkgconfig
 unix: PKGCONFIG += /usr/lib/x86_64-linux-gnu/pkgconfig/libcurl.pc
 
 unix: PKGCONFIG += /usr/lib/x86_64-linux-gnu/pkgconfig/libssl.pc
-
-unix: PKGCONFIG += /usr/lib/x86_64-linux-gnu/pkgconfig/libcrypto.pc
-
-unix: PKGCONFIG += /usr/lib/x86_64-linux-gnu/pkgconfig/libcurl.pc
-
-
-unix: PKGCONFIG += /usr/lib/x86_64-linux-gnu/pkgconfig/libssl.pc
-
 
 unix: PKGCONFIG += /usr/lib/x86_64-linux-gnu/pkgconfig/libcrypto.pc

@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QMessageBox>
+#include "Settings.h"
 
 namespace Ui {
 class COptionSetting;
@@ -13,7 +14,7 @@ class COptionSetting : public QDialog
     Q_OBJECT
 
 public:
-    explicit COptionSetting(QWidget *parent = 0);
+    explicit COptionSetting(QWidget *parent = 0, CSettings *settings = NULL);
     ~COptionSetting();
 
 private slots:
@@ -26,6 +27,8 @@ private slots:
     
 private:
     Ui::COptionSetting *ui;
+
+    CSettings *m_pSettings;
 };
 
 #endif // OPTIONSETTINGWINDOW_H
