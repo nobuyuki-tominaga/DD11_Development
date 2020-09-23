@@ -9,6 +9,7 @@
 #include <QGraphicsScene>
 
 #include "imgmaker.h"
+#include "Settings.h"
 
 CSbcMakerMain::CSbcMakerMain(QWidget *parent) :
     QMainWindow(parent),
@@ -59,16 +60,18 @@ void CSbcMakerMain::on_settingPushButton_clicked()
 
 void CSbcMakerMain::on_previewPushButton_clicked()
 {
-#if 0 // debug
-    QString strEmpNum = "199013";
-    QString strFilePath = "/home/tommy/dev_work/DD11_Development/";
+// debug
+    QString strEmpNum = sbcSettings.getEmployeeNum();
+    //QString strEmpNum = "202057";
+    //QString strFilePath = "/home/atsushi/picture/save/";
+    QString strFilePath = sbcSettings.getSaveDir();
 
     ImgMaker *cImg = new(ImgMaker);
-    cImg->createGraphic(&m_scene, strEmpNum, 0, false, strFilePath);
+    cImg->createGraphic(&m_scene, strEmpNum, sides_front, false, strFilePath);
 
     ui->FrontGraphicsView->setScene(&m_scene);
     ui->FrontGraphicsView->fitInView(m_scene.itemsBoundingRect(),Qt::KeepAspectRatio);
-#endif
+//#endif
 }
 
 void CSbcMakerMain::on_imgGenPushButton_clicked()
@@ -84,12 +87,25 @@ void CSbcMakerMain::on_finishPushButton_clicked()
 void CSbcMakerMain::on_viewTabWidget_tabBarClicked(int index)
 {
     qDebug("Active Tab Number : %d", index);
+
+    QString strEmpNum = sbcSettings.getEmployeeNum();
+    //QString strFilePath = sbcSettings.getSaveDir();
+    QString strFilePath = "/home/atsushi/picture/save/";
     //表面
     if(index == 0){
+        ImgMaker *cImg = new(ImgMaker);
+        cImg->createGraphic(&m_scene, strEmpNum, sides_front, false, strFilePath); //表面
+
+        ui->FrontGraphicsView->setScene(&m_scene);
+        ui->FrontGraphicsView->fitInView(m_scene.itemsBoundingRect(),Qt::KeepAspectRatio);
 
     }
     //裏面
     else{
+        ImgMaker *cImg = new(ImgMaker);
+        cImg->createGraphic(&m_scene, strEmpNum, sides_back, false, strFilePath); //表面
 
+        ui->BackGraphicsView->setScene(&m_scene);
+        ui->BackGraphicsView->fitInView(m_scene.itemsBoundingRect(),Qt::KeepAspectRatio);
     }
 }
