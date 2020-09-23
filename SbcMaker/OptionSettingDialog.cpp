@@ -65,7 +65,6 @@ void COptionSetting::on_buttonBox_clicked(QAbstractButton *button)
         m_pSettings->setSaveDir(ui->saveDirLineEdit->text());
         m_pSettings->setSaveImgFmt(ui->saveFmtComboBox->currentIndex());
         m_pSettings->setCertP12File(ui->certFileLineEdit->text());
-        m_pSettings->saveIniFile();
         // pemファイルの有無を確認
         if((m_pSettings->getExistenceFlg() == false) || (ui->updateCheckBox->checkState() == Qt::Checked)){
             QTranslator translator;
@@ -75,6 +74,7 @@ void COptionSetting::on_buttonBox_clicked(QAbstractButton *button)
             CPasswd pwWindow(this, m_pSettings);
             pwWindow.exec(); // ダイアログが閉じるまで待機
         }
+        m_pSettings->saveIniFile();
     }
     this->close();
 }
