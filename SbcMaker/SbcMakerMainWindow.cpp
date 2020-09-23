@@ -89,12 +89,12 @@ void CSbcMakerMain::on_viewTabWidget_tabBarClicked(int index)
     qDebug("Active Tab Number : %d", index);
 
     QString strEmpNum = sbcSettings.getEmployeeNum();
-    //QString strFilePath = sbcSettings.getSaveDir();
-    QString strFilePath = "/home/atsushi/picture/save/";
+    QString strFilePath = sbcSettings.getSaveDir();
+
     //表面
     if(index == 0){
         ImgMaker *cImg = new(ImgMaker);
-        cImg->createGraphic(&m_scene, strEmpNum, sides_front, false, strFilePath); //表面
+        cImg->createGraphic(&m_scene, strEmpNum, sides_front, false, strFilePath);
 
         ui->FrontGraphicsView->setScene(&m_scene);
         ui->FrontGraphicsView->fitInView(m_scene.itemsBoundingRect(),Qt::KeepAspectRatio);
@@ -103,7 +103,7 @@ void CSbcMakerMain::on_viewTabWidget_tabBarClicked(int index)
     //裏面
     else{
         ImgMaker *cImg = new(ImgMaker);
-        cImg->createGraphic(&m_scene, strEmpNum, sides_back, false, strFilePath); //表面
+        cImg->createGraphic(&m_scene, strEmpNum, sides_back, false, strFilePath);
 
         ui->BackGraphicsView->setScene(&m_scene);
         ui->BackGraphicsView->fitInView(m_scene.itemsBoundingRect(),Qt::KeepAspectRatio);

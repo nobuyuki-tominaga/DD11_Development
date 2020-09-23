@@ -4,7 +4,6 @@
 #include <QGraphicsScene>
 #include <QGraphicsPixmapItem>
 #include <QDateTime>
-
 #include <QtGui>
 
 #include "SbcMakerCommon.h"
@@ -35,8 +34,6 @@ int ImgMaker::createGraphic(QGraphicsScene *scene, QString strEmpNum, int Side, 
         //日付取得
         QDateTime tm = QDateTime().currentDateTime();
         QString now = tm.toString("yyyy年MM月dd日");
-        QTextStream out(stdout);
-        out << now << endl;
 
         //名刺表面を保存
         QString f_strViewPath = SBC_TMP_FILE_PATH;
@@ -45,8 +42,6 @@ int ImgMaker::createGraphic(QGraphicsScene *scene, QString strEmpNum, int Side, 
         save_f_image->load(f_strViewPath);
         QString f_strFilePath = strFilePath;
         f_strFilePath += strEmpNum + "_" + now + SBC_F_FILE + strFileType[0];
-        //QTextStream path(stdout);
-        //path << f_strFilePath << endl;
         save_f_image->save(f_strFilePath);
         //名刺裏面を保存
         QString b_strViewPath = SBC_TMP_FILE_PATH;
@@ -134,13 +129,13 @@ void ImgMaker::createBcardBack(EMPLOYEE_INFO *info) //名刺裏面作成
 void ImgMaker::getPhotoComposition() //名刺表面に顔写真を貼り付け
 {
     QImage *image = new QImage();
-    QString strViewPath = "/home/atsushi/git/DD11_Development";
+    QString strViewPath = SBC_TMP_FILE_PATH;
     strViewPath += SBC_VIEW_F_FILE;
 
     image->load(strViewPath);
     QPainter painter(image);
 
-    QString strDataPath = "/home/atsushi/git/DD11_Development";
+    QString strDataPath = SBC_DATA_FILE_PATH;
     strDataPath += "face.gif";
     painter.drawImage(55, 220, QImage(strDataPath)); //gifファイル
     image->save(strViewPath);
