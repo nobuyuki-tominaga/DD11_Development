@@ -38,6 +38,7 @@ unix: PKGCONFIG += /usr/lib/x86_64-linux-gnu/pkgconfig/libssl.pc
 unix: PKGCONFIG += /usr/lib/x86_64-linux-gnu/pkgconfig/libcrypto.pc
 
 win32: LIBS += -L$$PWD/'../../../../../../Program Files/OpenSSL-Win64/lib/' -llibssl
+win32: LIBS += -L$$PWD/'../../../../../../Program Files/OpenSSL-Win64/lib/' -llibcrypto
 win32: INCLUDEPATH += $$PWD/'../../../../../../Program Files/OpenSSL-Win64/include'
 win32: DEPENDPATH += $$PWD/'../../../../../../Program Files/OpenSSL-Win64/include'
 
