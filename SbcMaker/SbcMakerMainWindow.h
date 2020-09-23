@@ -2,6 +2,7 @@
 #define SBCMAKERMAINWINDOW_H
 
 #include <QMainWindow>
+#include <QGraphicsScene>
 #include "Settings.h"
 
 namespace Ui {
@@ -30,6 +31,8 @@ private slots:
 private:
     Ui::CSbcMakerMain *ui;
     CSettings sbcSettings;
+
+    QGraphicsScene m_scene;
 };
 
 #endif // SBCMAKERMAINWINDOW_H
