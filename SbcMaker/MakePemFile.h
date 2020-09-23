@@ -11,15 +11,15 @@
 class CPemMaker
 {
     FILE *fp;
-    EVP_PKEY *pkey = nullptr;
-    X509 *cert = nullptr;
-    STACK_OF(X509) *ca = nullptr;
-    PKCS12 *p12 = nullptr;
+    EVP_PKEY *pkey = Q_NULLPTR;
+    X509 *cert = Q_NULLPTR;
+    STACK_OF(X509) *ca = Q_NULLPTR;
+    PKCS12 *p12 = Q_NULLPTR;
 
 public:
     CPemMaker();
     ~CPemMaker();
-    int makePemFile(QString *p12Path, QString *passwd, QString *number);
+    int makePemFile(const QString p12Path, const QString passwd, QString *number);
 };
 
 #endif // MAKE_PEM_FILE_H

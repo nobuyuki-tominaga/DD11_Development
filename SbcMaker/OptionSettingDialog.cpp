@@ -40,15 +40,6 @@ void COptionSetting::on_buttonBox_clicked(QAbstractButton *button)
 
     // 「保存」ボタン処理
     if(ui->buttonBox->standardButton(button) == QDialogButtonBox::Save){
-        // pemファイルの有無を確認
-        if((m_pSettings->getExistenceFlg() == false) || (ui->updateCheckBox->checkState() == Qt::Checked)){
-            QTranslator translator;
-            translator.load("qt_ja_JP", QLibraryInfo::location(QLibraryInfo::TranslationsPath));
-            qApp->installTranslator(&translator);
-            // パスワード入力画面をモーダルダイアログとして表示
-            CPasswd pwWindow(this, m_pSettings);
-            pwWindow.exec(); // ダイアログが閉じるまで待機
-        }
         saveFlg = true;
     }
     //「キャンセル」ボタン処理
@@ -75,6 +66,15 @@ void COptionSetting::on_buttonBox_clicked(QAbstractButton *button)
         m_pSettings->setSaveImgFmt(ui->saveFmtComboBox->currentIndex());
         m_pSettings->setCertP12File(ui->certFileLineEdit->text());
         m_pSettings->saveIniFile();
+        // pemファイルの有無を確認
+        if((m_pSettings->getExistenceFlg() == false) || (ui->updateCheckBox->checkState() == Qt::Checked)){
+            QTranslator translator;
+            translator.load("qt_ja_JP", QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+            qApp->installTranslator(&translator);
+            // パスワード入力画面をモーダルダイアログとして表示
+            CPasswd pwWindow(this, m_pSettings);
+            pwWindow.exec(); // ダイアログが閉じるまで待機
+        }
     }
     this->close();
 }
@@ -88,10 +88,11 @@ void COptionSetting::on_saveDirToolButton_clicked()
                                    QFileDialog::HideNameFilterDetails |
                                    QFileDialog::DontUseCustomDirectoryIcons;
 
-    QString dirName = QFileDialog::getExistingDirectory(this, tr("フォルダ選択"), tr(SBC_DEFAULT_FILE_PATH()), options);
+    QString dirName = QFileDialog::getExistingDirectory(this, tr("フォルダ選択"), m_pSettings->getSaveDir(), options);
 
-    ui->saveDirLineEdit->setText(dirName);
-
+    if(!dirName.isEmpty()){
+        ui->saveDirLineEdit->setText(dirName);
+    }
 }
 
 void COptionSetting::on_certFileToolButton_clicked()
@@ -100,7 +101,9 @@ void COptionSetting::on_certFileToolButton_clicked()
     translator.load("qt_ja_JP", QLibraryInfo::location(QLibraryInfo::TranslationsPath));
     qApp->installTranslator(&translator);
 
-    QString filename = QFileDialog::getOpenFileName(this, tr("証明書選択"), tr(SBC_DEFAULT_FILE_PATH()), tr("P12 FIle(*.p12);;ALL Files(*.*)"));
+    QString filename = QFileDialog::getOpenFileName(this, tr("証明書選択"), m_pSettings->getCertP12File(), tr("P12 FIle(*.p12);;ALL Files(*.*)"));
 
-    ui->certFileLineEdit->setText(filename);
+    if(!filename.isEmpty()){
+        ui->certFileLineEdit->setText(filename);
+    }
 }
