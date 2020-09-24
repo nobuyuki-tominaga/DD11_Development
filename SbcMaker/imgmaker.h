@@ -15,7 +15,8 @@ public:
     ~ImgMaker();
 
     void getPhotoComposition();
-    int createGraphic(QGraphicsScene *scene, QString strEmpNum, int Side, bool fSave, QString strFilePath);
+    int createGraphic(QString strEmpNum, int fileType, bool fSave, QString strFilePath);
+    int genViewGraphic(QGraphicsScene *scene, int Side);
     void createBcardFront(EMPLOYEE_INFO *info);
     void createBcardBack(EMPLOYEE_INFO *info);
 

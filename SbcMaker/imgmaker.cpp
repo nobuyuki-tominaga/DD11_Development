@@ -4,9 +4,10 @@
 #include <QGraphicsScene>
 #include <QGraphicsPixmapItem>
 #include <QDateTime>
-#include <QtGui>
+#include <QFile>
 
 #include "SbcMakerCommon.h"
+#include "GetEmployeeInfo.h"
 #include "imgmaker.h"
 
 
@@ -24,25 +25,24 @@ ImgMaker::~ImgMaker()
 {
 }
 
-
-
-int ImgMaker::createGraphic(QGraphicsScene *scene, QString strEmpNum, int Side, bool fSave, QString strFilePath)
+int ImgMaker::createGraphic(QString strEmpNum, int fileType, bool fSave, QString strFilePath)
 {
     EMPLOYEE_INFO info;
+    CEmployeeInfo ins;
 
-    if (Side == sides_front) {
-        createBcardFront(&info);
+    if (ins.getEmployeeInfo(&info, strEmpNum) != SUCCESS) {
+        return FAILURE;
     }
-    else{
-        createBcardBack(&info);
-    }
+
+    createBcardFront(&info);
+    createBcardBack(&info);
     getPhotoComposition();
 
     if (fSave == true) {
         // 本画像保存処理
         //日付取得
         QDateTime tm = QDateTime().currentDateTime();
-        QString now = tm.toString("yyyy年MM月dd日");
+        QString now = tm.toString("YYYYMMDD");
 
         //名刺表面を保存
         QString f_strViewPath = SBC_TMP_FILE_PATH;
@@ -50,7 +50,7 @@ int ImgMaker::createGraphic(QGraphicsScene *scene, QString strEmpNum, int Side, 
         QImage *save_f_image = new QImage();
         save_f_image->load(f_strViewPath);
         QString f_strFilePath = strFilePath;
-        f_strFilePath += strEmpNum + "_" + now + SBC_F_FILE + strFileType[0];
+        f_strFilePath += strEmpNum + "_" + now + SBC_F_FILE + strFileType[fileType];
         save_f_image->save(f_strFilePath);
         //名刺裏面を保存
         QString b_strViewPath = SBC_TMP_FILE_PATH;
@@ -58,10 +58,15 @@ int ImgMaker::createGraphic(QGraphicsScene *scene, QString strEmpNum, int Side, 
         QImage *save_b_image = new QImage();
         save_b_image->load(b_strViewPath);
         QString b_strFilePath = strFilePath;
-        b_strFilePath += strEmpNum + "_" + now + SBC_B_FILE + strFileType[0];
+        b_strFilePath += strEmpNum + "_" + now + SBC_B_FILE + strFileType[fileType];
         save_b_image->save(b_strFilePath);
     }
 
+    return SUCCESS;
+}
+
+int ImgMaker::genViewGraphic(QGraphicsScene *scene, int Side)
+{
     // image
     QString strViewPath = SBC_TMP_FILE_PATH;
     if (Side == sides_front) {
@@ -71,13 +76,22 @@ int ImgMaker::createGraphic(QGraphicsScene *scene, QString strEmpNum, int Side, 
         strViewPath += SBC_VIEW_B_FILE;
     }
 
+    if (!QFile::exists(strViewPath)) {
+        strViewPath  = SBC_DATA_FILE_PATH;
+        if (Side == sides_front) {
+            strViewPath += "sample_front.jpg";
+        }
+        else {
+            strViewPath += "sample_back.jpg";
+        }
+    }
+
     QImage image(strViewPath);
     QGraphicsPixmapItem *image_item = new QGraphicsPixmapItem(QPixmap::fromImage(image));
     scene->addItem(image_item);
 
     return SUCCESS;
 }
-
 
 void ImgMaker::createBcardFront(EMPLOYEE_INFO *info)  //名刺表面作成
 {
