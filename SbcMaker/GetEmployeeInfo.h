@@ -12,6 +12,9 @@ class CEmployeeInfo
     // レスポンスデータの格納先
     QString chunk;//
 
+private:
+    QString searchHofficeInfo(QString dept);
+    QString setEngPositionInfo(QString position);
 public:
     CEmployeeInfo();  // Constructor
     ~CEmployeeInfo(); // Destructor

@@ -8,13 +8,16 @@
 #include <QStringList>
 #include <QDebug>
 #include <QTextCodec>
+#include <QFile>
+#include <QTextStream>
+#include <QImage>
 
 #include "SbcMakerCommon.h"
 #include "GetEmployeeInfo.h"
 
 using namespace std;
 
-#define POSITION	"post="
+#define POSITION	"cgi?post="
 #define SECID       "sec_id="
 #define SECID_SPLIT "\">"
 #define SECID_END   "</a>"
@@ -50,6 +53,56 @@ CEmployeeInfo::~CEmployeeInfo()
 {
     // Clean up
     curl_easy_cleanup(curl);
+}
+
+QString CEmployeeInfo::searchHofficeInfo(QString dept)
+{
+    QString hoffice = Q_NULLPTR;
+    QFile csv("./list.csv");
+    csv.open(QFile::ReadOnly | QFile::Text);
+    QTextStream in(&csv);
+    in.setCodec(QTextCodec::codecForName("UTF-8"));
+    while(!in.atEnd()){
+        QString line = in.readLine();
+        QStringList list = line.split(",");
+        if(list[0].compare(dept) == 0){
+            if(list[1].compare("なし") == 0){
+                hoffice = "";
+            }
+            else {
+                hoffice = list[1];
+            }
+            qDebug("%s  %s", qPrintable(hoffice), qPrintable(list[0]));
+            break;
+        }
+    }
+    csv.close();
+    return hoffice;
+}
+
+QString CEmployeeInfo::setEngPositionInfo(QString position)
+{
+    QString engPosition = Q_NULLPTR;
+    QFile csv("./position.csv");
+    csv.open(QFile::ReadOnly | QFile::Text);
+    QTextStream in(&csv);
+    in.setCodec(QTextCodec::codecForName("UTF-8"));
+    while(!in.atEnd()){
+        QString line = in.readLine();
+        QStringList list = line.split(",");
+        if(list[0].compare(position) == 0){
+            if(list[1].compare("なし") == 0){
+                engPosition = "";
+            }
+            else {
+                engPosition = list[1];
+            }
+            qDebug("%s  %s", qPrintable(engPosition), qPrintable(list[0]));
+            break;
+        }
+    }
+    csv.close();
+    return engPosition;
 }
 
 /*
@@ -95,6 +148,13 @@ int CEmployeeInfo::getEmployeeInfo(EMPLOYEE_INFO *info, QString EmployeeNo)
             line.replace( "\t", "" );   //TABを削除
 
             //職位を抽出する
+ #if 0
+            QRegExp r2("cgi\?post=.*>(.*)</a>");
+            if(r2.indexIn(line) > 0){
+                QStringList l = r2.capturedTexts();
+                info->strPosition = l[1];
+            }
+#else
             if((start_pos = line.indexOf(POSITION)) >= 0){
                 if((tmp = line.indexOf(SECID_SPLIT)) >= 0){
                     start_pos = tmp + strlen(SECID_SPLIT);
@@ -104,7 +164,7 @@ int CEmployeeInfo::getEmployeeInfo(EMPLOYEE_INFO *info, QString EmployeeNo)
                     info->strPosition = body;
                 }
             }
-
+#endif
             //部・ユニット名・チーム名を抽出する
             QRegExp r("sec_id=.*>(.*)</a>");
             if(r.indexIn(line) > 0){
@@ -185,9 +245,10 @@ int CEmployeeInfo::getEmployeeInfo(EMPLOYEE_INFO *info, QString EmployeeNo)
         }
 
         //本部を設定する
-        info->strHoffice = "システム本部";
+        info->strHoffice = searchHofficeInfo(info->strDept);
 
         //英語名の役職を設定する
+        info->strEngPosition = setEngPositionInfo(info->strPosition);
 
         //写真のダウンロード
         QString picture = QString(FACE_PICTURE) + EmployeeNo + ".gif";
