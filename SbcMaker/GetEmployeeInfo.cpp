@@ -7,28 +7,30 @@
 #include <QString>
 #include <QStringList>
 #include <QDebug>
+#include <QTextCodec>
 
 #include "SbcMakerCommon.h"
 #include "GetEmployeeInfo.h"
 
 using namespace std;
 
-#define POSITION	"post=30\">"
-#define DPT         "sec_id=984\">"
-#define UNIT		"sec_id=994\">" 
-#define TEAM		"sec_id=1003\">" 
+#define POSITION	"post="
+#define SECID       "sec_id="
+#define SECID_SPLIT "\">"
+#define SECID_END   "</a>"
+
 #define MAIL_ADDR	"e=link&ml_to="
-//#define NAME1		"<td class=\"note\" colspan=\"2\">"
-#define NAME1		"<h2>"
-#define NAME2		"<td class=\"note\" width=\"140\" colspan=\"2\">"
+#define NAME1		"<td class=\"note\" colspan=\"2\">" //氏名・携帯番号用
+#define NAME2       "<td class=\"note\" width=\"140\" colspan=\"2\">" //ローマ字用
 
 #define URL_BASE    "https://inside.sobal.co.jp/antenna/property.cgi?target="
-//#define PEM_FILE    "./.security/204046_key.pem"
+#define FACE_PICTURE "https://inside.sobal.co.jp/portrait/"
 
 size_t onReceive(char* ptr, size_t size, size_t nmemb, QString* stream)
 {
     int realsize = size * nmemb;
-    stream->append(ptr);
+    QTextCodec *codec =QTextCodec::codecForName("EUC-JP");
+    stream->append(codec->toUnicode(ptr));
     return realsize;
 }
 
@@ -84,84 +86,113 @@ int CEmployeeInfo::getEmployeeInfo(EMPLOYEE_INFO *info, QString EmployeeNo)
         QList<QString>::const_iterator i;
         QString line;
         QString body;
-        int start_pos, end_pos, len;
+        int start_pos, end_pos, len, tmp;
+        int name = 0, engname = 0, mobile = 0;
+        int next_name = 0, next_engname = 0, next_mobile = 0;
+        int mobile_cnt = 0;
         for (i = strList.begin(); i != strList.end(); ++i){
             line = *i;
+            line.replace( "\t", "" );   //TABを削除
+
             //職位を抽出する
             if((start_pos = line.indexOf(POSITION)) >= 0){
-                end_pos = line.indexOf("</a>");
-                len = strlen(POSITION);
-                body = line.mid(start_pos+len, end_pos-(start_pos+len));
-                info->strPosition = body;
-                //qDebug("position:%s", body.toStdString().c_str());
+                if((tmp = line.indexOf(SECID_SPLIT)) >= 0){
+                    start_pos = tmp + strlen(SECID_SPLIT);
+                    end_pos = line.indexOf(SECID_END);
+                    len = end_pos - start_pos;
+                    body = line.mid(start_pos, len);
+                    info->strPosition = body;
+                }
             }
 
-            //部を抽出する
-            if((start_pos = line.indexOf(DPT)) >= 0){
-                end_pos = line.indexOf("</a>");
-                len = strlen(DPT);
-                body = line.mid(start_pos+len, end_pos-(start_pos+len));
-                info->strDept = body;
-                //qDebug("Dept:%s", body.toStdString().c_str());
-            }
-
-            //ユニットを抽出する
-            if((start_pos = line.indexOf(UNIT)) >= 0){
-                end_pos = line.indexOf("</a>");
-                len = strlen(UNIT);
-                body = line.mid(start_pos+len, end_pos-(start_pos+len));
-                info->strUnit = body;
-                //qDebug("Unit:%s", body.toStdString().c_str());
-            }
-
-            //チームを抽出する
-            if((start_pos = line.indexOf(TEAM)) >= 0){
-                if(line.indexOf("<img border=") < 0){
-                    end_pos = line.indexOf("</a>");
-                    len = strlen(TEAM);
-                    body = line.mid(start_pos+len, end_pos-(start_pos+len));
-                    info->strTeam = body;
-                    //qDebug("team:%s", body.toStdString().c_str());
+            //部・ユニット名・チーム名を抽出する
+            QRegExp r("sec_id=.*>(.*)</a>");
+            if(r.indexIn(line) > 0){
+                QStringList l = r.capturedTexts();
+                if((l[1].indexOf("部")) >= 0){
+                    info->strDept = l[1];
+                }else if((l[1].indexOf("ユニット")) >= 0){
+                    info->strUnit = l[1];
+                }else if((l[1].indexOf("チーム")) >= 0){
+                    info->strTeam = l[1];
                 }
             }
 
             //メールアドレスを抽出する
             if((start_pos = line.indexOf(MAIL_ADDR)) >= 0){
-                end_pos = line.indexOf("\">");
+                end_pos = line.indexOf(SECID_SPLIT);
                 len = strlen(MAIL_ADDR);
                 body = line.mid(start_pos+len, end_pos-(start_pos+len));
                 info->strMail = body;
-                qDebug("mail:%s", body.toStdString().c_str());
             }
 
-#if 0
-            //氏名を抽出する
-            if((start_pos = line.indexOf(NAME1)) >= 0){
-                end_pos = line.indexOf("さん");
-                len = strlen(NAME1);
-                body = line.mid(start_pos+len, end_pos-(start_pos+len));
-                qDebug("氏名:%s", body.toStdString().c_str());
-            }
-
-            //氏名を抽出する
-            if((start_pos = line.indexOf(NAME2)) >= 0){
-                if(shimei == 1)
-                   next_shimei = 1;
-                else if(romaji == 1)
-                   next_romaji = 1;
-            }
-
+            //氏名・ローマ字・携帯番号を検索する
             if(line.indexOf("氏名") >= 0){
-                shimei = 1;
-                qDebug("氏名を発見\n");
+                name = 1;
+            }else if(line.indexOf("ローマ字") >= 0){
+                engname = 1;
+            }else if(line.indexOf("携帯番号（会社）") >= 0){
+                mobile = 1;
             }
 
-            if(line.indexOf("ローマ字") >= 0){
-                romaji = 1;
-                qDebug("ローマ字を発見\n");
+            //氏名・ローマ字・携帯番号を抽出する
+            if(next_name != 0){
+                name = 0;
+                next_name = 0;
+                info->strName = line;
+            }else if(next_engname != 0){
+                engname = 0;
+                next_engname = 0;
+
+                //姓と名を分離して、入れ替える
+                {
+                    QString name1;
+                    QString name2;
+                    int sp_pos;
+                    int size = strlen(line.toStdString().c_str());
+
+                    if((sp_pos = line.indexOf(" ")) >= 0){
+                        name1 = line.mid(0, sp_pos);
+                        name2 = line.mid(sp_pos+1, size);
+                        info->strEngName = name2 + " " + name1;
+                    }
+                }
+            }else if(next_mobile != 0){
+                //一行空行が入る対応が必要
+                mobile_cnt++;
+                if(mobile_cnt > 1){
+                    mobile = 0;
+                    next_mobile = 0;
+                    if(line.indexOf("--") < 0){
+                        info->strMobile = line;
+                        info->strEngMobile = line.replace(0, 1, "+81-");
+                    }
+                }
             }
-#endif
+
+            //氏名・ローマ字・携帯番号の2次検索
+            if((start_pos = line.indexOf(NAME1)) >= 0){
+                if(name != 0){
+                   next_name = 1;
+                }else if(mobile != 0){
+                    next_mobile = 1;
+                }
+            }else if((start_pos = line.indexOf(NAME2)) >= 0){
+                if(engname != 0){
+                   next_engname = 1;
+                }
+            }
         }
+
+        //本部を設定する
+        info->strHoffice = "システム本部";
+
+        //英語名の役職を設定する
+
+        //写真のダウンロード
+        QString picture = QString(FACE_PICTURE) + EmployeeNo + ".gif";
+        qDebug("%s", picture.toStdString().c_str());
+
         return SUCCESS;
     }else{
         return FAILURE;
