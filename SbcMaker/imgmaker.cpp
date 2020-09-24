@@ -42,7 +42,7 @@ int ImgMaker::createGraphic(QString strEmpNum, int fileType, bool fSave, QString
         // 本画像保存処理
         //日付取得
         QDateTime tm = QDateTime().currentDateTime();
-        QString now = tm.toString("YYYYMMDD");
+        QString now = tm.toString("yyyyMMdd");
 
         //名刺表面を保存
         QString f_strViewPath = SBC_TMP_FILE_PATH;
@@ -50,7 +50,7 @@ int ImgMaker::createGraphic(QString strEmpNum, int fileType, bool fSave, QString
         QImage *save_f_image = new QImage();
         save_f_image->load(f_strViewPath);
         QString f_strFilePath = strFilePath;
-        f_strFilePath += strEmpNum + "_" + now + SBC_F_FILE + strFileType[fileType];
+        f_strFilePath += "/" + strEmpNum + "_" + now + SBC_F_FILE + strFileType[fileType];
         save_f_image->save(f_strFilePath);
         //名刺裏面を保存
         QString b_strViewPath = SBC_TMP_FILE_PATH;
@@ -58,7 +58,7 @@ int ImgMaker::createGraphic(QString strEmpNum, int fileType, bool fSave, QString
         QImage *save_b_image = new QImage();
         save_b_image->load(b_strViewPath);
         QString b_strFilePath = strFilePath;
-        b_strFilePath += strEmpNum + "_" + now + SBC_B_FILE + strFileType[fileType];
+        b_strFilePath += "/" + strEmpNum + "_" + now + SBC_B_FILE + strFileType[fileType];
         save_b_image->save(b_strFilePath);
     }
 
