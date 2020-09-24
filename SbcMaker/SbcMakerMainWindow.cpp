@@ -62,8 +62,6 @@ void CSbcMakerMain::on_previewPushButton_clicked()
 {
 // debug
     QString strEmpNum = sbcSettings.getEmployeeNum();
-    //QString strEmpNum = "202057";
-    //QString strFilePath = "/home/atsushi/picture/save/";
     QString strFilePath = sbcSettings.getSaveDir();
 
     ImgMaker *cImg = new(ImgMaker);
@@ -76,6 +74,15 @@ void CSbcMakerMain::on_previewPushButton_clicked()
 
 void CSbcMakerMain::on_imgGenPushButton_clicked()
 {
+    // debug
+        QString strEmpNum = sbcSettings.getEmployeeNum();
+        QString strFilePath = sbcSettings.getSaveDir();
+
+        ImgMaker *cImg = new(ImgMaker);
+        cImg->createGraphic(&m_scene, strEmpNum, sides_front, true, strFilePath);
+
+        ui->FrontGraphicsView->setScene(&m_scene);
+        ui->FrontGraphicsView->fitInView(m_scene.itemsBoundingRect(),Qt::KeepAspectRatio);
 
 }
 

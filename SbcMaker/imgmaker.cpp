@@ -28,6 +28,15 @@ ImgMaker::~ImgMaker()
 
 int ImgMaker::createGraphic(QGraphicsScene *scene, QString strEmpNum, int Side, bool fSave, QString strFilePath)
 {
+    EMPLOYEE_INFO info;
+
+    if (Side == sides_front) {
+        createBcardFront(&info);
+    }
+    else{
+        createBcardBack(&info);
+    }
+    getPhotoComposition();
 
     if (fSave == true) {
         // 本画像保存処理
@@ -61,8 +70,6 @@ int ImgMaker::createGraphic(QGraphicsScene *scene, QString strEmpNum, int Side, 
     else {
         strViewPath += SBC_VIEW_B_FILE;
     }
-    // debug
-    //strViewPath += strFileType[1];
 
     QImage image(strViewPath);
     QGraphicsPixmapItem *image_item = new QGraphicsPixmapItem(QPixmap::fromImage(image));
@@ -108,7 +115,6 @@ void ImgMaker::createBcardBack(EMPLOYEE_INFO *info) //名刺裏面作成
     QString strDataPath = SBC_DATA_FILE_PATH;
 
     QImage *image = new QImage();
-    // debug
     strDataPath += "back.jpg";
     image->load(strDataPath);
     QPainter painter(image);
