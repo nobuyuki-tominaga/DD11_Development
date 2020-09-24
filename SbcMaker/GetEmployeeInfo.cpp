@@ -11,6 +11,7 @@
 #include <QFile>
 #include <QTextStream>
 #include <QImage>
+#include <QDir>
 
 #include "SbcMakerCommon.h"
 #include "GetEmployeeInfo.h"
@@ -58,7 +59,7 @@ CEmployeeInfo::~CEmployeeInfo()
 QString CEmployeeInfo::searchHofficeInfo(QString dept)
 {
     QString hoffice = Q_NULLPTR;
-    QFile csv("./list.csv");
+    QFile csv("./.data/list.csv");
     csv.open(QFile::ReadOnly | QFile::Text);
     QTextStream in(&csv);
     in.setCodec(QTextCodec::codecForName("UTF-8"));
@@ -83,7 +84,7 @@ QString CEmployeeInfo::searchHofficeInfo(QString dept)
 QString CEmployeeInfo::setEngPositionInfo(QString position)
 {
     QString engPosition = Q_NULLPTR;
-    QFile csv("./position.csv");
+    QFile csv("./.data/position.csv");
     csv.open(QFile::ReadOnly | QFile::Text);
     QTextStream in(&csv);
     in.setCodec(QTextCodec::codecForName("UTF-8"));
@@ -249,6 +250,13 @@ int CEmployeeInfo::getEmployeeInfo(EMPLOYEE_INFO *info, QString EmployeeNo)
 
         //英語名の役職を設定する
         info->strEngPosition = setEngPositionInfo(info->strPosition);
+
+        //顔写真ファイルを格納するフォルダ(tmp)を作成する
+        QString basedir = "./";
+        QDir dir(basedir);
+        if(!dir.exists(QString(SBC_TMP_FILE_PATH))){
+            dir.mkdir(QString(SBC_TMP_FILE_PATH));
+        }
 
         //写真のダウンロード
         QString picture = QString(FACE_PICTURE) + EmployeeNo + ".gif";
