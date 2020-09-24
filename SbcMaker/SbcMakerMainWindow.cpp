@@ -80,34 +80,26 @@ void CSbcMakerMain::on_settingPushButton_clicked()
 
 void CSbcMakerMain::on_previewPushButton_clicked()
 {
-    // 未実装
-    //+++++++++++++++++++++
-    // 名刺画像描画処理
-    // アクティブなタブ(表 or 裏)を取得
-    // 名刺作成I/Fをcall
-    // GraphicsViewクラスで表示処理
-    //+++++++++++++++++++++
-#if 0 // debug
-    QString strEmpNum = "199013";
-    QString strFilePath = "/home/tommy/dev_work/DD11_Development/";
+    QString strEmpNum = sbcSettings.getEmployeeNum();
+    QString strFilePath = sbcSettings.getSaveDir();
 
     ImgMaker *cImg = new(ImgMaker);
-    cImg->createGraphic(&m_scene, strEmpNum, 0, false, strFilePath);
+    cImg->createGraphic(&m_scene, strEmpNum, sides_front, false, strFilePath);
 
     ui->FrontGraphicsView->setScene(&m_scene);
     ui->FrontGraphicsView->fitInView(m_scene.itemsBoundingRect(),Qt::KeepAspectRatio);
-#endif
 }
 
 void CSbcMakerMain::on_imgGenPushButton_clicked()
 {
-    // 未実装
-    //+++++++++++++++++++++
-    // 名刺画像描画処理
-    // アクティブなタブ(表 or 裏)を取得
-    // 名刺作成I/Fをcall
-    // GraphicsViewクラスで表示処理
-    //+++++++++++++++++++++
+    QString strEmpNum = sbcSettings.getEmployeeNum();
+    QString strFilePath = sbcSettings.getSaveDir();
+
+    ImgMaker *cImg = new(ImgMaker);
+    cImg->createGraphic(&m_scene, strEmpNum, sides_front, true, strFilePath);
+
+    ui->FrontGraphicsView->setScene(&m_scene);
+    ui->FrontGraphicsView->fitInView(m_scene.itemsBoundingRect(),Qt::KeepAspectRatio);
 }
 
 void CSbcMakerMain::on_finishPushButton_clicked()
@@ -118,24 +110,24 @@ void CSbcMakerMain::on_finishPushButton_clicked()
 void CSbcMakerMain::on_viewTabWidget_tabBarClicked(int index)
 {
     qDebug("Active Tab Number : %d", index);
+    QString strEmpNum = sbcSettings.getEmployeeNum();
+    QString strFilePath = sbcSettings.getSaveDir();
+
     //表面
-    if(index == sides_front){
-        // 未実装
-        //+++++++++++++++++++++
-        // 名刺画像描画処理
-        // 表面を取得
-        // 名刺作成I/Fをcall
-        // GraphicsViewクラスで表示処理
-        //+++++++++++++++++++++
+    if(index == 0){
+        ImgMaker *cImg = new(ImgMaker);
+        cImg->createGraphic(&m_scene, strEmpNum, sides_front, false, strFilePath);
+
+        ui->FrontGraphicsView->setScene(&m_scene);
+        ui->FrontGraphicsView->fitInView(m_scene.itemsBoundingRect(),Qt::KeepAspectRatio);
+
     }
     //裏面
     else{
-        // 未実装
-        //+++++++++++++++++++++
-        // 名刺画像描画処理
-        // 裏面を取得
-        // 名刺作成I/Fをcall
-        // GraphicsViewクラスで表示処理
-        //+++++++++++++++++++++
+        ImgMaker *cImg = new(ImgMaker);
+        cImg->createGraphic(&m_scene, strEmpNum, sides_back, false, strFilePath);
+
+        ui->BackGraphicsView->setScene(&m_scene);
+        ui->BackGraphicsView->fitInView(m_scene.itemsBoundingRect(),Qt::KeepAspectRatio);
     }
 }
