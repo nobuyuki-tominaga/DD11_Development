@@ -6,12 +6,6 @@
 
 class CEmployeeInfo
 {
-    // Declaration
-    CURL     *curl;
-    CURLcode res;
-    // レスポンスデータの格納先
-    QString chunk;//
-
 private:
     QString searchHofficeInfo(QString dept);
     QString setEngPositionInfo(QString position);

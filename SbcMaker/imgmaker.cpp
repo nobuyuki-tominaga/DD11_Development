@@ -36,7 +36,7 @@ int ImgMaker::createGraphic(QString strEmpNum, int fileType, bool fSave, QString
 
     createBcardFront(&info);
     createBcardBack(&info);
-    getPhotoComposition();
+    getPhotoComposition(strEmpNum);
 
     if (fSave == true) {
         // 本画像保存処理
@@ -146,7 +146,7 @@ void ImgMaker::createBcardBack(EMPLOYEE_INFO *info) //名刺裏面作成
     strViewPath += SBC_VIEW_B_FILE;
     image->save(strViewPath);
 }
-void ImgMaker::getPhotoComposition() //名刺表面に顔写真を貼り付け
+void ImgMaker::getPhotoComposition(QString strEmpNum) //名刺表面に顔写真を貼り付け
 {
     QImage *image = new QImage();
     QString strViewPath = SBC_TMP_FILE_PATH;
@@ -155,8 +155,8 @@ void ImgMaker::getPhotoComposition() //名刺表面に顔写真を貼り付け
     image->load(strViewPath);
     QPainter painter(image);
 
-    QString strDataPath = SBC_DATA_FILE_PATH;
-    strDataPath += "face.gif";
+    QString strDataPath = SBC_TMP_FILE_PATH;
+    strDataPath += strEmpNum + ".gif";
     painter.drawImage(55, 220, QImage(strDataPath)); //gifファイル
     image->save(strViewPath);
 }

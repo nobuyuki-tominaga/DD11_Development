@@ -14,7 +14,7 @@ public:
     //  デストラクタ
     ~ImgMaker();
 
-    void getPhotoComposition();
+    void getPhotoComposition(QString strEmpNum);
     int createGraphic(QString strEmpNum, int fileType, bool fSave, QString strFilePath);
     int genViewGraphic(QGraphicsScene *scene, int Side);
     void createBcardFront(EMPLOYEE_INFO *info);

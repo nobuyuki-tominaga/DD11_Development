@@ -43,8 +43,6 @@ size_t onReceive(char* ptr, size_t size, size_t nmemb, QString* stream)
  */
 CEmployeeInfo::CEmployeeInfo()
 {
-	// CURL Initial
-	curl = curl_easy_init();
 }
 
 /*
@@ -52,8 +50,6 @@ CEmployeeInfo::CEmployeeInfo()
  */
 CEmployeeInfo::~CEmployeeInfo()
 {
-    // Clean up
-    curl_easy_cleanup(curl);
 }
 
 QString CEmployeeInfo::searchHofficeInfo(QString dept)
@@ -111,8 +107,13 @@ QString CEmployeeInfo::setEngPositionInfo(QString position)
  */
 int CEmployeeInfo::getEmployeeInfo(EMPLOYEE_INFO *info, QString EmployeeNo)
 {
-    QString url = QString(URL_BASE) + EmployeeNo;
-    QString pem = QString(SBC_PEM_FILE_PATH) + EmployeeNo + QString(SBC_PEM_FILE);
+    CURL     *curl;
+    CURLcode res;
+    QString  url = QString(URL_BASE) + EmployeeNo;
+    QString  pem = QString(SBC_PEM_FILE_PATH) + EmployeeNo + QString(SBC_PEM_FILE);
+    QString chunk;  // レスポンスデータの格納先
+
+    curl = curl_easy_init();
 
     //CURL設定
     curl_easy_setopt(curl, CURLOPT_BUFFERSIZE, 102400L);
@@ -258,9 +259,35 @@ int CEmployeeInfo::getEmployeeInfo(EMPLOYEE_INFO *info, QString EmployeeNo)
             dir.mkdir(QString(SBC_TMP_FILE_PATH));
         }
 
+        // Clean up
+        curl_easy_cleanup(curl);
+
         //写真のダウンロード
-        QString picture = QString(FACE_PICTURE) + EmployeeNo + ".gif";
-        qDebug("%s", picture.toStdString().c_str());
+        QString strPicture = QString(FACE_PICTURE) + EmployeeNo + ".gif";
+        QString strFileName = SBC_TMP_FILE_PATH + EmployeeNo + ".gif";
+        qDebug("%s", strPicture.toStdString().c_str());
+
+        FILE *fp = fopen(strFileName.toStdString().c_str(), "wb");
+
+        curl = curl_easy_init();
+        curl_easy_setopt(curl,CURLOPT_URL, strPicture.toStdString().c_str());
+
+        curl_easy_setopt(curl, CURLOPT_SSLCERT, pem.toStdString().c_str());
+        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, fp);
+        res = curl_easy_perform(curl);
+
+        long http_code=0;
+        curl_easy_getinfo(curl,CURLINFO_RESPONSE_CODE, &http_code);
+
+        fclose(fp);
+
+        // Clean up
+        curl_easy_cleanup(curl);
+
+        if (res != CURLE_OK) {
+            return FAILURE;
+        }
 
         return SUCCESS;
     }else{
