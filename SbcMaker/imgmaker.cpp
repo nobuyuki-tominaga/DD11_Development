@@ -5,6 +5,7 @@
 #include <QGraphicsPixmapItem>
 #include <QDateTime>
 #include <QFile>
+#include <QDir>
 
 #include "SbcMakerCommon.h"
 #include "GetEmployeeInfo.h"
@@ -32,6 +33,13 @@ int ImgMaker::createGraphic(QString strEmpNum, int fileType, bool fSave, QString
 
     if (ins.getEmployeeInfo(&info, strEmpNum) != SUCCESS) {
         return FAILURE;
+    }
+
+    //ファイルを一時的に格納するフォルダ(.temp)を作成する
+    QString basedir = "./";
+    QDir dir(basedir);
+    if(!dir.exists(QString(SBC_TMP_FILE_PATH))){
+        dir.mkdir(QString(SBC_TMP_FILE_PATH));
     }
 
     createBcardFront(&info);
