@@ -11,6 +11,20 @@
 
 #include "imgmaker.h"
 
+bool CSbcMakerMain::event(QEvent *e)
+{
+    bool f = QMainWindow::event(e);
+
+    {
+        QEvent::Type type = e->type();
+        if (type == QEvent::Show) {
+            ui->FrontGraphicsView->fitInView(m_scene.itemsBoundingRect(),Qt::KeepAspectRatio);
+        }
+    }
+
+    return f;
+}
+
 CSbcMakerMain::CSbcMakerMain(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::CSbcMakerMain)
@@ -41,16 +55,9 @@ CSbcMakerMain::CSbcMakerMain(QWidget *parent) :
     }
     ui->employeeNumLineEdit->setText(sbcSettings.getEmployeeNum());
 
-    // 未実装
-    //+++++++++++++++++++++
-    // 名刺画像描画処理
-    // 作成済みのが画像がある場合はその画像(表)を表示
-    // ない場合はサンプリ画像(表)を表示
-    //+++++++++++++++++++++
     ImgMaker *cImg = new(ImgMaker);
     cImg->genViewGraphic(&m_scene, sides_front);   // 表示用(sceneの生成関数)
     ui->FrontGraphicsView->setScene(&m_scene);
-    ui->FrontGraphicsView->fitInView(m_scene.itemsBoundingRect(),Qt::KeepAspectRatio);
 }
 
 CSbcMakerMain::~CSbcMakerMain()
@@ -160,8 +167,6 @@ void CSbcMakerMain::on_viewTabWidget_tabBarClicked(int index)
         cImg->genViewGraphic(&m_scene, sides_front);
 
         ui->FrontGraphicsView->setScene(&m_scene);
-        ui->FrontGraphicsView->fitInView(m_scene.itemsBoundingRect(),Qt::KeepAspectRatio);
-
     }
     //裏面
     else{
@@ -170,6 +175,17 @@ void CSbcMakerMain::on_viewTabWidget_tabBarClicked(int index)
         cImg->genViewGraphic(&m_scene, sides_back);
 
         ui->BackGraphicsView->setScene(&m_scene);
+    }
+}
+
+void CSbcMakerMain::on_viewTabWidget_currentChanged(int index)
+{
+    //表面
+    if(index == 0){
+        ui->FrontGraphicsView->fitInView(m_scene.itemsBoundingRect(),Qt::KeepAspectRatio);
+    }
+    //裏面
+    else{
         ui->BackGraphicsView->fitInView(m_scene.itemsBoundingRect(),Qt::KeepAspectRatio);
     }
 }

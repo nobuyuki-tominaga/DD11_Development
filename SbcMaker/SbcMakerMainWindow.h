@@ -16,6 +16,7 @@ class CSbcMakerMain : public QMainWindow
 public:
     explicit CSbcMakerMain(QWidget *parent = 0);
     ~CSbcMakerMain();
+    bool event(QEvent *e);
 
 private slots:
     void on_settingPushButton_clicked();
@@ -27,6 +28,8 @@ private slots:
     void on_finishPushButton_clicked();
 
     void on_viewTabWidget_tabBarClicked(int index);
+
+    void on_viewTabWidget_currentChanged(int index);
 
 private:
     Ui::CSbcMakerMain *ui;
