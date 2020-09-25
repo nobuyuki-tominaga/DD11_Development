@@ -112,6 +112,7 @@ void CSbcMakerMain::on_previewPushButton_clicked()
     else{
         // 画像作成に失敗した際にダイアログを表示する
         QMessageBox msgBox(this);
+        msgBox.setWindowTitle(tr("メッセージ"));
         msgBox.setText(tr("プレビュー画像作成失敗"));
         msgBox.setStandardButtons(QMessageBox::Ok);
         msgBox.exec();
@@ -142,6 +143,7 @@ void CSbcMakerMain::on_imgGenPushButton_clicked()
     else{
         // 画像作成に失敗した際にダイアログを表示する
         QMessageBox msgBox(this);
+        msgBox.setWindowTitle(tr("メッセージ"));
         msgBox.setText(tr("画像作成失敗"));
         msgBox.setStandardButtons(QMessageBox::Ok);
         msgBox.exec();
@@ -156,14 +158,10 @@ void CSbcMakerMain::on_finishPushButton_clicked()
 void CSbcMakerMain::on_viewTabWidget_tabBarClicked(int index)
 {
     qDebug("Active Tab Number : %d", index);
-    QString strEmpNum = sbcSettings.getEmployeeNum();
-    QString strFilePath = sbcSettings.getSaveDir();
-    int fileType = sbcSettings.getSaveImgFmt();
 
     //表面
     if(index == 0){
         ImgMaker *cImg = new(ImgMaker);
-        cImg->createGraphic(strEmpNum, fileType, false, strFilePath);
         cImg->genViewGraphic(&m_scene, sides_front);
 
         ui->FrontGraphicsView->setScene(&m_scene);
@@ -171,7 +169,6 @@ void CSbcMakerMain::on_viewTabWidget_tabBarClicked(int index)
     //裏面
     else{
         ImgMaker *cImg = new(ImgMaker);
-        cImg->createGraphic(strEmpNum, fileType, false, strFilePath);
         cImg->genViewGraphic(&m_scene, sides_back);
 
         ui->BackGraphicsView->setScene(&m_scene);
