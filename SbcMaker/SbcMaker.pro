@@ -11,7 +11,6 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = SbcMaker
 TEMPLATE = app
 
-
 SOURCES += main.cpp\
         SbcMakerMainWindow.cpp \
     PasswdSettingDialog.cpp \
@@ -20,6 +19,10 @@ SOURCES += main.cpp\
     MakePemFile.cpp \
     GetEmployeeInfo.cpp \
     imgmaker.cpp
+
+win32 {
+SOURCES += applink.c
+}
 
 HEADERS  += SbcMakerMainWindow.h \
     PasswdSettingDialog.h \
