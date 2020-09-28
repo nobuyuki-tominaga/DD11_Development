@@ -99,15 +99,3 @@ int CPemMaker::makePemFile(const QString p12Path, const QString passwd, QString 
     fclose(fp);
     return SUCCESS;
 }
-
-int driver_makePemfile(void)
-{
-    QString p12Path = "/home/majima/auth_openssl/204046.p12";
-    QString passwd = "caAdmrrHpmI";
-    QString number = "123456";
-    CPemMaker objMain;
-    int ret = objMain.makePemFile(p12Path, passwd, &number);
-
-    return ret;
-}
- 
