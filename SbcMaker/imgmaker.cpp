@@ -11,6 +11,11 @@
 #include "GetEmployeeInfo.h"
 #include "imgmaker.h"
 
+// PhotoSize,Position
+#define W_POS 55
+#define H_POS 220
+#define PHOTO_WIDTH 179
+#define PHOTO_HEIGHT 178
 
 QString strFileType[MAX_FILETYPE] = {
   "jpg",
@@ -165,6 +170,8 @@ void ImgMaker::getPhotoComposition(QString strEmpNum) //名刺表面に顔写真
 
     QString strDataPath = SBC_TMP_FILE_PATH;
     strDataPath += strEmpNum + ".gif";
-    painter.drawImage(55, 220, QImage(strDataPath)); //gifファイル
+
+    QRect rect(W_POS, H_POS, PHOTO_WIDTH, PHOTO_HEIGHT);
+    painter.drawImage(rect, QImage(strDataPath));
     image->save(strViewPath);
 }
