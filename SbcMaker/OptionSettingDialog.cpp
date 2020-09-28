@@ -67,12 +67,16 @@ void COptionSetting::on_buttonBox_clicked(QAbstractButton *button)
         m_pSettings->setCertP12File(ui->certFileLineEdit->text());
         // pemファイルの有無を確認
         if((m_pSettings->getExistenceFlg() == false) || (ui->updateCheckBox->checkState() == Qt::Checked)){
-            QTranslator translator;
-            translator.load("qt_ja_JP", QLibraryInfo::location(QLibraryInfo::TranslationsPath));
-            qApp->installTranslator(&translator);
-            // パスワード入力画面をモーダルダイアログとして表示
-            CPasswd pwWindow(this, m_pSettings);
-            pwWindow.exec(); // ダイアログが閉じるまで待機
+            QString file = m_pSettings->getCertP12File();
+            if(file.isEmpty() == false){
+                qDebug("-%s-", qPrintable(file));
+                QTranslator translator;
+                translator.load("qt_ja_JP", QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+                qApp->installTranslator(&translator);
+                // パスワード入力画面をモーダルダイアログとして表示
+                CPasswd pwWindow(this, m_pSettings);
+                pwWindow.exec(); // ダイアログが閉じるまで待機
+            }
         }
         m_pSettings->saveIniFile();
     }
