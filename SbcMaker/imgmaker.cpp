@@ -52,6 +52,9 @@ int ImgMaker::createGraphic(QString strEmpNum, int fileType, bool fSave, QString
     getPhotoComposition(strEmpNum);
 
     if (fSave == true) {
+        if(!dir.exists(strFilePath)){
+            dir.mkdir(strFilePath);
+        }
         // 本画像保存処理
         //日付取得
         QDateTime tm = QDateTime().currentDateTime();
