@@ -55,7 +55,7 @@ CEmployeeInfo::~CEmployeeInfo()
 QString CEmployeeInfo::searchHofficeInfo(QString dept)
 {
     QString hoffice = Q_NULLPTR;
-    QFile csv("./.data/list.csv");
+    QFile csv("./.data/Department.csv");
     csv.open(QFile::ReadOnly | QFile::Text);
     QTextStream in(&csv);
     in.setCodec(QTextCodec::codecForName("UTF-8"));
