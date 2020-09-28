@@ -44,20 +44,36 @@ void COptionSetting::on_buttonBox_clicked(QAbstractButton *button)
     }
     //「キャンセル」ボタン処理
     else {
-        //保存しなくてよいかの確認メッセージを表示
-        QMessageBox msgBox(this);
-        msgBox.setWindowTitle(tr("メッセージ"));
-        msgBox.setText(tr("変更を保存しますか？"));
-        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-        msgBox.setButtonText(QMessageBox::Yes, tr("はい"));
-        msgBox.setButtonText(QMessageBox::No, tr("いいえ"));
-        msgBox.setDefaultButton(QMessageBox::No);
-        msgboxRet = msgBox.exec();
-        if(msgboxRet == QMessageBox::Yes){
-            saveFlg = true;
-        }
-        else{
-            saveFlg = false;
+        bool    nowAdminFlg = m_pSettings->getAdminFlg();
+        QString nowSaveDir  = m_pSettings->getSaveDir();
+        QString nowCertFile = m_pSettings->getCertP12File();
+        uint    nowImgFmt   = m_pSettings->getSaveImgFmt();
+
+        bool    newAdminFlg = (ui->adminCheckBox->checkState() == Qt::Checked)? true : false;
+        QString newSaveDir  = ui->saveDirLineEdit->text();
+        QString newCertFile = ui->certFileLineEdit->text();
+        uint    newImgFmt   = ui->saveFmtComboBox->currentIndex();
+
+        if((nowAdminFlg != newAdminFlg) ||
+           (nowSaveDir.compare(newSaveDir) != 0) ||
+           (nowCertFile.compare(newCertFile) != 0) ||
+           (nowImgFmt != newImgFmt) ||
+           (ui->updateCheckBox->checkState() == Qt::Checked)){
+            //保存しなくてよいかの確認メッセージを表示
+            QMessageBox msgBox(this);
+            msgBox.setWindowTitle(tr("メッセージ"));
+            msgBox.setText(tr("変更を保存しますか？"));
+            msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+            msgBox.setButtonText(QMessageBox::Yes, tr("はい"));
+            msgBox.setButtonText(QMessageBox::No, tr("いいえ"));
+            msgBox.setDefaultButton(QMessageBox::No);
+            msgboxRet = msgBox.exec();
+            if(msgboxRet == QMessageBox::Yes){
+                saveFlg = true;
+            }
+            else{
+                saveFlg = false;
+            }
         }
     }
     if(saveFlg == true){
