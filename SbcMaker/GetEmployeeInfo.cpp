@@ -228,6 +228,10 @@ int CEmployeeInfo::getEmployeeInfo(EMPLOYEE_INFO *info, QString EmployeeNo)
                     if(line.indexOf("--") < 0){
                         info->strMobile = line;
                         info->strEngMobile = line.replace(0, 1, "+81-");
+                    }else{
+                        //携帯番号が--の場合
+                        info->strMobile = "";
+                        info->strEngMobile = "";
                     }
                 }
             }
