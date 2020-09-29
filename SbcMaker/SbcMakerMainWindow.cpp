@@ -18,6 +18,9 @@ bool CSbcMakerMain::event(QEvent *e)
     {
         QEvent::Type type = e->type();
         if (type == QEvent::Show) {
+            ImgMaker *cImg = new(ImgMaker);
+            cImg->genViewGraphic(&m_scene, sides_front);   // 表示用(sceneの生成関数)
+            ui->FrontGraphicsView->setScene(&m_scene);
             ui->FrontGraphicsView->fitInView(m_scene.itemsBoundingRect(),Qt::KeepAspectRatio);
         }
     }
@@ -54,10 +57,6 @@ CSbcMakerMain::CSbcMakerMain(QWidget *parent) :
         ui->imgGenPushButton->setDisabled(true);
     }
     ui->employeeNumLineEdit->setText(sbcSettings.getEmployeeNum());
-
-    ImgMaker *cImg = new(ImgMaker);
-    cImg->genViewGraphic(&m_scene, sides_front);   // 表示用(sceneの生成関数)
-    ui->FrontGraphicsView->setScene(&m_scene);
 }
 
 CSbcMakerMain::~CSbcMakerMain()
@@ -158,7 +157,7 @@ void CSbcMakerMain::on_finishPushButton_clicked()
 void CSbcMakerMain::on_viewTabWidget_tabBarClicked(int index)
 {
     qDebug("Active Tab Number : %d", index);
-
+#if 0
     //表面
     if(index == 0){
         ImgMaker *cImg = new(ImgMaker);
@@ -173,16 +172,25 @@ void CSbcMakerMain::on_viewTabWidget_tabBarClicked(int index)
 
         ui->BackGraphicsView->setScene(&m_scene);
     }
+#endif
 }
 
 void CSbcMakerMain::on_viewTabWidget_currentChanged(int index)
 {
     //表面
     if(index == 0){
+        ImgMaker *cImg = new(ImgMaker);
+        cImg->genViewGraphic(&m_scene, sides_front);
+
+        ui->FrontGraphicsView->setScene(&m_scene);
         ui->FrontGraphicsView->fitInView(m_scene.itemsBoundingRect(),Qt::KeepAspectRatio);
     }
     //裏面
     else{
+        ImgMaker *cImg = new(ImgMaker);
+        cImg->genViewGraphic(&m_scene, sides_back);
+
+        ui->BackGraphicsView->setScene(&m_scene);
         ui->BackGraphicsView->fitInView(m_scene.itemsBoundingRect(),Qt::KeepAspectRatio);
     }
 }
