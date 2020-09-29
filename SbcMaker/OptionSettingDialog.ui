@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>524</width>
-    <height>275</height>
+    <width>576</width>
+    <height>303</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,10 +19,10 @@
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
     <rect>
-     <x>300</x>
-     <y>220</y>
-     <width>182</width>
-     <height>27</height>
+     <x>260</x>
+     <y>210</y>
+     <width>281</width>
+     <height>71</height>
     </rect>
    </property>
    <property name="standardButtons">
@@ -32,9 +32,9 @@
   <widget class="QCheckBox" name="adminCheckBox">
    <property name="geometry">
     <rect>
-     <x>370</x>
+     <x>410</x>
      <y>30</y>
-     <width>111</width>
+     <width>141</width>
      <height>21</height>
     </rect>
    </property>
@@ -45,9 +45,9 @@
   <widget class="QCheckBox" name="updateCheckBox">
    <property name="geometry">
     <rect>
-     <x>370</x>
+     <x>410</x>
      <y>180</y>
-     <width>111</width>
+     <width>141</width>
      <height>21</height>
     </rect>
    </property>
@@ -60,7 +60,7 @@
     <rect>
      <x>40</x>
      <y>60</y>
-     <width>441</width>
+     <width>511</width>
      <height>31</height>
     </rect>
    </property>
@@ -92,7 +92,7 @@
     <rect>
      <x>40</x>
      <y>140</y>
-     <width>441</width>
+     <width>511</width>
      <height>31</height>
     </rect>
    </property>
@@ -121,7 +121,7 @@
     <rect>
      <x>40</x>
      <y>100</y>
-     <width>136</width>
+     <width>191</width>
      <height>31</height>
     </rect>
    </property>
