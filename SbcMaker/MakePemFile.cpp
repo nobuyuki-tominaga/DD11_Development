@@ -43,7 +43,7 @@ int CPemMaker::makePemFile(const QString p12Path, const QString passwd, QString 
         }
     }
 
-    if ((fp = fopen(p12Path.toStdString().c_str(), "rb")) == Q_NULLPTR) {
+    if ((fp = fopen(p12Path.toLocal8Bit().toStdString().c_str(), "rb")) == Q_NULLPTR) {
         fprintf(stderr, "nullptr .p12\n");
         return FAILURE;
     }
