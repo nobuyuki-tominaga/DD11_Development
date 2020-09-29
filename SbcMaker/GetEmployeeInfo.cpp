@@ -201,6 +201,12 @@ int CEmployeeInfo::getEmployeeInfo(EMPLOYEE_INFO *info, QString EmployeeNo)
             if(next_name != 0){
                 name = 0;
                 next_name = 0;
+                // 文字の間に半角スペースを追加する
+                int loop;
+                int loopend = ( line.length() - 1 ) * 2;
+                for(loop = 0; loop < loopend; loop+=2){
+                    line.insert(loop+1," ");
+                }
                 info->strName = line;
             }else if(next_engname != 0){
                 engname = 0;
