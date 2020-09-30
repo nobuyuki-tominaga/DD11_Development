@@ -50,10 +50,10 @@ int ImgMaker::createGraphic(QString strEmpNum, int fileType, bool fSave, QString
     //.dataディレクトリ内にファイルが無ければ、エラーを返す
     QString strdatafilePath = SBC_DATA_FILE_PATH;
     if(!QFile::exists(QString(strdatafilePath + "front.jpg")) ||
-    !QFile::exists(QString(strdatafilePath + "back.jpg")) ||
-    !QFile::exists(QString(strdatafilePath + "Department.csv")) ||
-    !QFile::exists(QString(strdatafilePath + "position.csv"))){
-    return FAILURE;
+       !QFile::exists(QString(strdatafilePath + "back.jpg")) ||
+       !QFile::exists(QString(strdatafilePath + "Department.csv")) ||
+       !QFile::exists(QString(strdatafilePath + "position.csv"))){
+        return FAILURE;
     }
 
     createBcardFront(&info);
@@ -94,7 +94,8 @@ int ImgMaker::genViewGraphic(QGraphicsScene *scene, int Side)
 {
     //.dataディレクトリ内にsampleファイルが無ければ、エラーを返す
     QString strdatafilePath = SBC_DATA_FILE_PATH;
-    if(!QFile::exists(QString(strdatafilePath + "sample_front.jpg")) || !QFile::exists(QString(strdatafilePath + "sample_back.jpg"))){
+    if(!QFile::exists(QString(strdatafilePath + "sample_front.jpg")) ||
+       !QFile::exists(QString(strdatafilePath + "sample_back.jpg"))){
         return FAILURE;
     }
 
