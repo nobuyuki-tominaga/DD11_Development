@@ -49,8 +49,11 @@ int ImgMaker::createGraphic(QString strEmpNum, int fileType, bool fSave, QString
 
     //.dataディレクトリ内にファイルが無ければ、エラーを返す
     QString strdatafilePath = SBC_DATA_FILE_PATH;
-    if(!QFile::exists(QString(strdatafilePath + "front.jpg")) || !QFile::exists(QString(strdatafilePath + "back.jpg")) || !QFile::exists(QString(strdatafilePath + "Department.csv")) || !QFile::exists(QString(strdatafilePath + "position.csv"))){
-        return FAILURE;
+    if(!QFile::exists(QString(strdatafilePath + "front.jpg")) ||
+    !QFile::exists(QString(strdatafilePath + "back.jpg")) ||
+    !QFile::exists(QString(strdatafilePath + "Department.csv")) ||
+    !QFile::exists(QString(strdatafilePath + "position.csv"))){
+    return FAILURE;
     }
 
     createBcardFront(&info);
