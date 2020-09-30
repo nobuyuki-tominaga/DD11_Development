@@ -47,6 +47,11 @@ int ImgMaker::createGraphic(QString strEmpNum, int fileType, bool fSave, QString
         dir.mkdir(QString(SBC_TMP_FILE_PATH));
     }
 
+    //.dataディレクトリが無ければ、エラーを返す
+    if(!dir.exists(QString(SBC_DATA_FILE_PATH))){
+        return FAILURE;
+    }
+
     createBcardFront(&info);
     createBcardBack(&info);
     getPhotoComposition(strEmpNum);
@@ -132,7 +137,7 @@ void ImgMaker::createBcardFront(EMPLOYEE_INFO *info)  //名刺表面作成
     painter.drawText(250,370, info->strName); //座標は左下
     //携帯番号があれば表示
     if(!QString(info->strMobile).isEmpty()){
-        painter.setFont(QFont("MS UI Gothic", 5, QFont::Bold));
+        painter.setFont(QFont("MS UI Gothic", 6, QFont::Bold));
         painter.drawText(475,593, "Mobile " + info->strMobile);
     }
 
