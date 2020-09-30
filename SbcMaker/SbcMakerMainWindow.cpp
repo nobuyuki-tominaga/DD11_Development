@@ -2,6 +2,7 @@
 #include <QMessageBox>
 #include <QTranslator>
 #include <QLibraryInfo>
+#include <QDir>
 #include "SbcMakerCommon.h"
 #include "SbcMakerMainWindow.h"
 #include "ui_SbcMakerMainWindow.h"
@@ -58,6 +59,17 @@ CSbcMakerMain::CSbcMakerMain(QWidget *parent) :
         ui->imgGenPushButton->setDisabled(true);
     }
     ui->employeeNumLineEdit->setText(sbcSettings.getEmployeeNum());
+
+    QString basedir = "./";
+    QDir dir(basedir);
+    if(!dir.exists(QString(SBC_DATA_FILE_PATH))){
+        QMessageBox msgBox(this);
+        msgBox.setWindowTitle(tr("エラー"));
+        msgBox.setText(tr("起動に失敗！！\n必要コンポーネント(.data)が不足しています。"));
+        msgBox.setStandardButtons(QMessageBox::Ok);
+        msgBox.exec();
+        exit(EXIT_FAILURE);
+    }
 }
 
 CSbcMakerMain::~CSbcMakerMain()
