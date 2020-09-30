@@ -2,6 +2,7 @@
 #include <QMessageBox>
 #include <QTranslator>
 #include <QLibraryInfo>
+#include <QDir>
 #include "SbcMakerCommon.h"
 #include "SbcMakerMainWindow.h"
 #include "ui_SbcMakerMainWindow.h"
@@ -18,7 +19,11 @@ bool CSbcMakerMain::event(QEvent *e)
     {
         QEvent::Type type = e->type();
         if (type == QEvent::Show) {
+            ImgMaker *cImg = new(ImgMaker);
+            cImg->genViewGraphic(&m_scene, sides_front);   // 表示用(sceneの生成関数)
+            ui->FrontGraphicsView->setScene(&m_scene);
             ui->FrontGraphicsView->fitInView(m_scene.itemsBoundingRect(),Qt::KeepAspectRatio);
+            delete cImg;
         }
     }
 
@@ -55,9 +60,16 @@ CSbcMakerMain::CSbcMakerMain(QWidget *parent) :
     }
     ui->employeeNumLineEdit->setText(sbcSettings.getEmployeeNum());
 
-    ImgMaker *cImg = new(ImgMaker);
-    cImg->genViewGraphic(&m_scene, sides_front);   // 表示用(sceneの生成関数)
-    ui->FrontGraphicsView->setScene(&m_scene);
+    QString basedir = "./";
+    QDir dir(basedir);
+    if(!dir.exists(QString(SBC_DATA_FILE_PATH))){
+        QMessageBox msgBox(this);
+        msgBox.setWindowTitle(tr("エラー"));
+        msgBox.setText(tr("起動に失敗！！\n必要コンポーネント(.data)が不足しています。"));
+        msgBox.setStandardButtons(QMessageBox::Ok);
+        msgBox.exec();
+        exit(EXIT_FAILURE);
+    }
 }
 
 CSbcMakerMain::~CSbcMakerMain()
@@ -117,6 +129,7 @@ void CSbcMakerMain::on_previewPushButton_clicked()
         msgBox.setStandardButtons(QMessageBox::Ok);
         msgBox.exec();
     }
+    delete cImg;
 }
 
 void CSbcMakerMain::on_imgGenPushButton_clicked()
@@ -148,6 +161,7 @@ void CSbcMakerMain::on_imgGenPushButton_clicked()
         msgBox.setStandardButtons(QMessageBox::Ok);
         msgBox.exec();
     }
+    delete cImg;
 }
 
 void CSbcMakerMain::on_finishPushButton_clicked()
@@ -158,7 +172,7 @@ void CSbcMakerMain::on_finishPushButton_clicked()
 void CSbcMakerMain::on_viewTabWidget_tabBarClicked(int index)
 {
     qDebug("Active Tab Number : %d", index);
-
+#if 0
     //表面
     if(index == 0){
         ImgMaker *cImg = new(ImgMaker);
@@ -173,16 +187,27 @@ void CSbcMakerMain::on_viewTabWidget_tabBarClicked(int index)
 
         ui->BackGraphicsView->setScene(&m_scene);
     }
+#endif
 }
 
 void CSbcMakerMain::on_viewTabWidget_currentChanged(int index)
 {
     //表面
     if(index == 0){
+        ImgMaker *cImg = new(ImgMaker);
+        cImg->genViewGraphic(&m_scene, sides_front);
+
+        ui->FrontGraphicsView->setScene(&m_scene);
         ui->FrontGraphicsView->fitInView(m_scene.itemsBoundingRect(),Qt::KeepAspectRatio);
+        delete cImg;
     }
     //裏面
     else{
+        ImgMaker *cImg = new(ImgMaker);
+        cImg->genViewGraphic(&m_scene, sides_back);
+
+        ui->BackGraphicsView->setScene(&m_scene);
         ui->BackGraphicsView->fitInView(m_scene.itemsBoundingRect(),Qt::KeepAspectRatio);
+        delete cImg;
     }
 }
