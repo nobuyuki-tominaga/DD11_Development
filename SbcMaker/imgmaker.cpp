@@ -47,8 +47,9 @@ int ImgMaker::createGraphic(QString strEmpNum, int fileType, bool fSave, QString
         dir.mkdir(QString(SBC_TMP_FILE_PATH));
     }
 
-    //.dataディレクトリが無ければ、エラーを返す
-    if(!dir.exists(QString(SBC_DATA_FILE_PATH))){
+    //.dataディレクトリ内にファイルが無ければ、エラーを返す
+    QString strdatafilePath = SBC_DATA_FILE_PATH;
+    if(!QFile::exists(QString(strdatafilePath + "front.jpg")) || !QFile::exists(QString(strdatafilePath + "back.jpg")) || !QFile::exists(QString(strdatafilePath + "Department.csv")) || !QFile::exists(QString(strdatafilePath + "position.csv"))){
         return FAILURE;
     }
 
@@ -88,6 +89,12 @@ int ImgMaker::createGraphic(QString strEmpNum, int fileType, bool fSave, QString
 
 int ImgMaker::genViewGraphic(QGraphicsScene *scene, int Side)
 {
+    //.dataディレクトリ内にsampleファイルが無ければ、エラーを返す
+    QString strdatafilePath = SBC_DATA_FILE_PATH;
+    if(!QFile::exists(QString(strdatafilePath + "sample_front.jpg")) || !QFile::exists(QString(strdatafilePath + "sample_back.jpg"))){
+        return FAILURE;
+    }
+
     // image
     QString strViewPath = SBC_TMP_FILE_PATH;
     if (Side == sides_front) {
