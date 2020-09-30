@@ -128,12 +128,13 @@ void ImgMaker::createBcardFront(EMPLOYEE_INFO *info)  //名刺表面作成
     painter.drawText(250,245, info->strTeam); //座標は左下
     painter.drawText(250,320, info->strPosition); //座標は左下
     painter.drawText(330,390,700,35, Qt::AlignRight, info->strMail);//右端に合わせる
-
     painter.setFont(QFont("MS UI Gothic", 11));
     painter.drawText(250,370, info->strName); //座標は左下
-
-    painter.setFont(QFont("MS UI Gothic", 5, QFont::Bold));
-    painter.drawText(475,593, "Mobile " + info->strMobile); //座標は左下
+    //携帯番号があれば表示
+    if(!QString(info->strMobile).isEmpty()){
+        painter.setFont(QFont("MS UI Gothic", 5, QFont::Bold));
+        painter.drawText(475,593, "Mobile " + info->strMobile);
+    }
 
     strViewPath += SBC_VIEW_F_FILE;
     image->save(strViewPath);
@@ -153,8 +154,10 @@ void ImgMaker::createBcardBack(EMPLOYEE_INFO *info) //名刺裏面作成
     painter.setFont(QFont("MS UI Gothic", 6));
     painter.drawText(250,320, info->strEngPosition); //座標は左下
     painter.drawText(330,390,700,35, Qt::AlignRight,info->strMail);//右端に合わせる
-    painter.drawText(500,585, "Mobile " + info->strEngMobile); //座標は左下
-
+    //携帯番号があれば表示
+    if(!QString(info->strEngMobile).isEmpty()){
+        painter.drawText(500,585, "Mobile " + info->strEngMobile);
+    }
     painter.setFont(QFont("MS UI Gothic", 11));
     painter.drawText(250,370, info->strEngName); //座標は左下
 
