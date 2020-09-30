@@ -22,6 +22,7 @@ bool CSbcMakerMain::event(QEvent *e)
             cImg->genViewGraphic(&m_scene, sides_front);   // 表示用(sceneの生成関数)
             ui->FrontGraphicsView->setScene(&m_scene);
             ui->FrontGraphicsView->fitInView(m_scene.itemsBoundingRect(),Qt::KeepAspectRatio);
+            delete cImg;
         }
     }
 
@@ -116,6 +117,7 @@ void CSbcMakerMain::on_previewPushButton_clicked()
         msgBox.setStandardButtons(QMessageBox::Ok);
         msgBox.exec();
     }
+    delete cImg;
 }
 
 void CSbcMakerMain::on_imgGenPushButton_clicked()
@@ -147,6 +149,7 @@ void CSbcMakerMain::on_imgGenPushButton_clicked()
         msgBox.setStandardButtons(QMessageBox::Ok);
         msgBox.exec();
     }
+    delete cImg;
 }
 
 void CSbcMakerMain::on_finishPushButton_clicked()
@@ -184,6 +187,7 @@ void CSbcMakerMain::on_viewTabWidget_currentChanged(int index)
 
         ui->FrontGraphicsView->setScene(&m_scene);
         ui->FrontGraphicsView->fitInView(m_scene.itemsBoundingRect(),Qt::KeepAspectRatio);
+        delete cImg;
     }
     //裏面
     else{
@@ -192,5 +196,6 @@ void CSbcMakerMain::on_viewTabWidget_currentChanged(int index)
 
         ui->BackGraphicsView->setScene(&m_scene);
         ui->BackGraphicsView->fitInView(m_scene.itemsBoundingRect(),Qt::KeepAspectRatio);
+        delete cImg;
     }
 }
