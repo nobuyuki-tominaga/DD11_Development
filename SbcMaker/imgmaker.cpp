@@ -130,9 +130,9 @@ void ImgMaker::createBcardFront(EMPLOYEE_INFO *info)  //名刺表面作成
     painter.drawText(330,390,700,35, Qt::AlignRight, info->strMail);//右端に合わせる
     painter.setFont(QFont("MS UI Gothic", 11));
     painter.drawText(250,370, info->strName); //座標は左下
-    painter.setFont(QFont("MS UI Gothic", 5, QFont::Bold));
     //携帯番号があれば表示
     if(!QString(info->strMobile).isEmpty()){
+        painter.setFont(QFont("MS UI Gothic", 5, QFont::Bold));
         painter.drawText(475,593, "Mobile " + info->strMobile);
     }
 
